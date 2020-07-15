@@ -5,29 +5,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="FussionAdminEvidence.Views.LoginPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Bienvenido"
              BackgroundColor="#cf2127">
     <ContentPage.Content>
-        <Grid>
-            <BoxView Color="#f9f9f9"></BoxView>
-
+        <ScrollView BindingContext="{Binding Login}">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="fussion_logo_login.png" WidthRequest="50" HeightRequest="100" Margin="0,50,0,30"></Image>
-                <StackLayout Grid.Row="1" Padding="30,20">
-                    <Entry Placeholder="Nombre de usuario"></Entry>
-                    <Entry Placeholder="Contraseña" IsPassword="True"></Entry>
-                    <Button Text="Iniciar Sesión" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Registrarse" HorizontalOptions="CenterAndExpand"></Label>
+                <BoxView Color="#f9f9f9"></BoxView>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="fussion_logo_login.png" WidthRequest="150" Margin="0,50,0,30"></Image>
+                    <StackLayout Grid.Row="1" Padding="30,20">
+                        <Entry Placeholder="Nombre de usuario" Text="{Binding NombreUsuario, Mode=TwoWay}"></Entry>
+                        <Entry Placeholder="Contraseña" Text="{Binding Password,Mode=TwoWay}" IsPassword="True"></Entry>
+                        <Button Text="Iniciar Sesión" Command="{Binding LoginCommand}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+                        <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}"></ActivityIndicator>
+                        <StackLayout Orientation="Horizontal" Margin="10">
+                            <Label Text="Registrarse" HorizontalOptions="CenterAndExpand"></Label>
+                        </StackLayout>
                     </StackLayout>
-                </StackLayout>
+                </Grid>
             </Grid>
-        </Grid>
-       
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
