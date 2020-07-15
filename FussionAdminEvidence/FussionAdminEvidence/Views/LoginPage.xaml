@@ -23,7 +23,7 @@
                     <StackLayout Grid.Row="1" Padding="30,20">
                         <Entry Placeholder="Nombre de usuario" Text="{Binding NombreUsuario, Mode=TwoWay}"></Entry>
                         <Entry Placeholder="Contraseña" Text="{Binding Password,Mode=TwoWay}" IsPassword="True"></Entry>
-                        <Button Text="Iniciar Sesión" Command="{Binding LoginCommand}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+                        <Button Text="Iniciar Sesión" Command="{Binding LoginCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
                         <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}"></ActivityIndicator>
                         <StackLayout Orientation="Horizontal" Margin="10">
                             <Label Text="Registrarse" HorizontalOptions="CenterAndExpand"></Label>
