@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using FussionAdminEvidence.Views;
+using GalaSoft.MvvmLight.Command;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -12,13 +13,17 @@ namespace FussionAdminEvidence.ViewModels
         #endregion
 
         #region Attributes
+        private string nombreUsuario;
         private string password;
         private bool isRunning;
         private bool isEnabled;
         #endregion
 
         #region Properties
-        public string NombreUsuario { get; set; }
+        public string NombreUsuario {
+            get { return nombreUsuario; }
+            set { SetValue(ref nombreUsuario, value); }
+        }
 
         public string Password
         {
@@ -82,7 +87,12 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            await Application.Current.MainPage.DisplayAlert("MUY BIEN", "USUARIO Y PASS BIEN", "Aceptar");
+            this.NombreUsuario = string.Empty;
+            this.Password = string.Empty;
+            this.IsRunning = false;
+            MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());
+
 
         }
         #endregion
