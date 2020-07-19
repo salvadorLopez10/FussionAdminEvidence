@@ -16,6 +16,7 @@ namespace FussionAdminEvidence.ViewModels
         public MainViewModel()
         {
             this.Login = new LoginViewModel();
+            this.Pedidos = new PedidosViewModel();
         }
         #endregion
 

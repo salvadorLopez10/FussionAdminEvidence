@@ -19,7 +19,7 @@ namespace FussionAdminEvidence.Services
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Please turn on your internet settings.",
+                    Message = "Por favor encienda sus datos móviles o wifi",
                 };
             }
 
@@ -30,7 +30,7 @@ namespace FussionAdminEvidence.Services
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Check you internet connection.",
+                    Message = "Compruebe sus conexión a internet",
                 };
             }
 

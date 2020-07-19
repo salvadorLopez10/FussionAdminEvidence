@@ -92,8 +92,6 @@ namespace FussionAdminEvidence.ViewModels
             this.IsRunning = false;
             MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());
-
-
         }
         #endregion
     }
