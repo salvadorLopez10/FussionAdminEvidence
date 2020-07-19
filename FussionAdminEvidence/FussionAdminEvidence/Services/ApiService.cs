@@ -12,7 +12,6 @@ namespace FussionAdminEvidence.Services
 {
     public class ApiService
     {
-        /*
         public async Task<Response> CheckConnection()
         {
             if (!CrossConnectivity.Current.IsConnected)
@@ -41,7 +40,6 @@ namespace FussionAdminEvidence.Services
                 Message = "Ok",
             };
         }
-        */
 
         public async Task<Response> Get<T>(
             string urlBase,
