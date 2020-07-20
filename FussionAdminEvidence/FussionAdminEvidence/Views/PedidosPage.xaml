@@ -16,6 +16,7 @@
             </SearchBar>
             <ListView 
                 ItemsSource="{Binding Pedidos}"
+                SeparatorVisibility="None"
                 HasUnevenRows="True"
                 IsPullToRefreshEnabled="True"
                 IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
@@ -23,31 +24,36 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <StackLayout
+                            <Frame Margin="5"
+                                   CornerRadius="20"
+                                   HasShadow="True">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
                                     Grid.Column="0"
                                     VerticalOptions="Center"
                                     >
-                                    <Label
+                                        <Label
                                         FontAttributes="Bold"
                                         FontSize="Medium"
                                         Text="{Binding NumeroPedido}">
-                                    </Label>
-                                    <Label
+                                        </Label>
+                                        <Label
                                         FontAttributes="Bold"
                                         FontSize="Medium"
                                         Text="{Binding NombreCliente}">
-                                    </Label>
-                                </StackLayout>
-                                <Image
+                                        </Label>
+                                    </StackLayout>
+                                    <Image
                                     Grid.Column="1"
                                     HorizontalOptions="End"
                                     Source="ic_chevron_right"></Image>
-                            </Grid>
+                                </Grid>
+                            </Frame>
+                            
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
