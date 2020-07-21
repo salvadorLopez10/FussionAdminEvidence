@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FussionAdminEvidence.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,14 +11,19 @@ namespace FussionAdminEvidence.ViewModels
         public LoginViewModel Login { get; set; }
 
         public PedidosViewModel Pedidos { get; set; }
+
+        public PedidoViewModel Pedido { get; set; }
+
         #endregion
 
         #region Constructors
         public MainViewModel()
         {
+            instance = this;
             this.Login = new LoginViewModel();
             this.Pedidos = new PedidosViewModel();
         }
+
         #endregion
 
         #region Singleton
@@ -25,13 +31,14 @@ namespace FussionAdminEvidence.ViewModels
 
         public static MainViewModel GetInstace()
         {
-            if (instance==null)
+            if (instance == null)
             {
                 return new MainViewModel();
-            }
+            } 
 
             return instance;    
         }
+
         #endregion
     }
 }

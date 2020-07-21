@@ -18,14 +18,14 @@ namespace FussionAdminEvidence.ViewModels
         #endregion
 
         #region Attributes
-        private ObservableCollection<Pedido> pedidos;
+        private ObservableCollection<PedidoItemViewModel> pedidos;
         public bool isRefreshing;
         private string filter;
         private List<Pedido> pedidosList;
         #endregion
 
         #region Properties
-        public ObservableCollection<Pedido> Pedidos
+        public ObservableCollection<PedidoItemViewModel> Pedidos
         {
             get { return this.pedidos; }
             set { SetValue(ref this.pedidos, value); }
@@ -39,7 +39,7 @@ namespace FussionAdminEvidence.ViewModels
 
         public string Filter {
             get { return this.filter; }
-            set { 
+            set {
                 SetValue(ref this.filter, value);
                 this.Search();
             }
@@ -55,6 +55,26 @@ namespace FussionAdminEvidence.ViewModels
         #endregion
 
         #region Methods
+
+        private IEnumerable<PedidoItemViewModel> ToPedidoItemViewModel()
+        {
+            return this.pedidosList.Select(p => new PedidoItemViewModel
+            {
+                Id=p.Id,
+                NumeroPedido=p.NumeroPedido,
+                FechaPedido=p.FechaPedido,
+                CodigoCliente=p.CodigoCliente,
+                NombreCliente=p.NombreCliente,
+                DireccionEntrega=p.DireccionEntrega,
+                NumeroCajas=p.NumeroCajas,
+                FolioFactura=p.FolioFactura,
+                Detalle=p.Detalle,
+                ItemCode=p.ItemCode,
+                Quantity=p.Quantity,
+                Comentarios=p.Comentarios
+            });
+        }
+
         private async void LoadPedidos()
         {
             this.IsRefreshing = true;
@@ -79,7 +99,8 @@ namespace FussionAdminEvidence.ViewModels
 
             this.IsRefreshing = false;
             this.pedidosList = (List<Pedido>)response.Result;
-            this.Pedidos = new ObservableCollection<Pedido>(this.pedidosList);
+            this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
+                this.ToPedidoItemViewModel());
 
         }
 
@@ -87,12 +108,13 @@ namespace FussionAdminEvidence.ViewModels
         {
             if (string.IsNullOrEmpty(this.Filter))
             {
-                this.Pedidos = new ObservableCollection<Pedido>(this.pedidosList);
+                this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
+                    this.ToPedidoItemViewModel());
             }
             else
             {
-                this.Pedidos = new ObservableCollection<Pedido>(
-                    this.pedidosList.Where(
+                this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
+                    this.ToPedidoItemViewModel().Where(
                         l => l.NumeroPedido.Contains(this.Filter) ||
                              l.NombreCliente.ToLower().Contains(this.Filter.ToLower())
                         ));

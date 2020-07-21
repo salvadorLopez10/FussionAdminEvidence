@@ -20,13 +20,19 @@
                 HasUnevenRows="True"
                 IsPullToRefreshEnabled="True"
                 IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
-                RefreshCommand="{Binding RefreshCommand}">
+                RefreshCommand="{Binding RefreshCommand}"
+                >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Frame Margin="5"
                                    CornerRadius="20"
                                    HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectPedidoCommand}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                                
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -34,8 +40,7 @@
                                     </Grid.ColumnDefinitions>
                                     <StackLayout
                                     Grid.Column="0"
-                                    VerticalOptions="Center"
-                                    >
+                                    VerticalOptions="Center">
                                         <Label
                                         FontAttributes="Bold"
                                         FontSize="Medium"
@@ -53,7 +58,6 @@
                                     Source="ic_chevron_right"></Image>
                                 </Grid>
                             </Frame>
-                            
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
