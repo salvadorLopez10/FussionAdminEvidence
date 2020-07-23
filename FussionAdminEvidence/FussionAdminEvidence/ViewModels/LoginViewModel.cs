@@ -1,5 +1,9 @@
-﻿using FussionAdminEvidence.Views;
+﻿using FussionAdminEvidence.Models;
+using FussionAdminEvidence.Services;
+using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -8,8 +12,8 @@ namespace FussionAdminEvidence.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        #region Events
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Services
+        private ApiService apiService;
         #endregion
 
         #region Attributes
@@ -49,6 +53,9 @@ namespace FussionAdminEvidence.ViewModels
         public LoginViewModel()
         {
             this.IsEnabled = true;
+            this.NombreUsuario = "luis@interdev.mx";
+            this.Password = "Luis123+";
+            this.apiService = new ApiService();
         }
         #endregion
 
@@ -78,11 +85,28 @@ namespace FussionAdminEvidence.ViewModels
             this.IsRunning = true;
             this.isEnabled = false;
 
-            if (this.NombreUsuario != "Chava" || this.Password != "1234")
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
             {
                 this.IsRunning = false;
                 this.isEnabled = true;
-                await Application.Current.MainPage.DisplayAlert("Error", "Nombre de usuario o Contraseña incorrectos", "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
+                return;
+            }
+
+            var usuario = this.NombreUsuario;
+            var pass = this.Password;
+
+            var jsonData = "{\"model\": {\"UserName\": \""+usuario+"\",\"Password\": \""+pass+"\"}}";
+           
+            var response = await apiService.Login("https://apps.fussionweb.com/", "sietest/Account", "/loginmovile",jsonData);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.isEnabled = true;
+                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                this.NombreUsuario = string.Empty;
                 this.Password = string.Empty;
                 return;
             }

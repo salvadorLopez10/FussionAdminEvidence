@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using Newtonsoft.Json.Linq;
 
 namespace FussionAdminEvidence.Services
 {
@@ -39,6 +40,70 @@ namespace FussionAdminEvidence.Services
                 IsSuccess = true,
                 Message = "Ok",
             };
+        }
+
+        public async Task<Response> Login(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string data)
+        {
+            try
+            {
+                //var request = JsonConvert.SerializeObject(data);
+                var content = new StringContent(
+                    data,
+                    Encoding.UTF8,
+                    "application/json");
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = response.StatusCode.ToString(),
+                    };
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                if (result=="True")
+                {
+                    return new Response
+                    {
+                        IsSuccess = true,
+                        Message = "Log in correcto",
+                        Result = result,
+                    };
+
+                }
+                else
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Nombre de usuario y/o contraseña no válidos",
+                        Result = result,
+                    };
+
+                }
+               
+
+            }
+            catch (Exception ex)
+            {
+
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+
+
         }
 
         public async Task<Response> Get<T>(
