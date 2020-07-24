@@ -195,6 +195,48 @@ namespace FussionAdminEvidence.Services
             }
         }
 
+        public async Task<Response> GetPedidos(
+            string urlBase,
+            string servicePrefix,
+            string controller)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.GetAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var pedidos = JObject.Parse(result).SelectToken("Context").ToString();
+                var lista_pedidos = JsonConvert.DeserializeObject<List<Pedido_>>(pedidos);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Ok",
+                    Result = lista_pedidos
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
         public async Task<Response> GetList<T>(
             string urlBase,
             string servicePrefix,

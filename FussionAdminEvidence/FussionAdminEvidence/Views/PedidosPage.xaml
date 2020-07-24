@@ -44,12 +44,12 @@
                                         <Label
                                         FontAttributes="Bold"
                                         FontSize="Medium"
-                                        Text="{Binding NumeroPedido}">
+                                        Text="{Binding CardCode}">
                                         </Label>
                                         <Label
                                         FontAttributes="Bold"
                                         FontSize="Medium"
-                                        Text="{Binding NombreCliente}">
+                                        Text="{Binding CardName}">
                                         </Label>
                                     </StackLayout>
                                     <Image

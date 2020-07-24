@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace FussionAdminEvidence.ViewModels
 {
-    public class PedidoItemViewModel: Pedido
+    public class PedidoItemViewModel: Pedido_
     {
         #region Commands
         public ICommand SelectPedidoCommand

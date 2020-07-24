@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -21,7 +22,7 @@ namespace FussionAdminEvidence.ViewModels
         private ObservableCollection<PedidoItemViewModel> pedidos;
         public bool isRefreshing;
         private string filter;
-        private List<Pedido> pedidosList;
+        private List<Pedido_> pedidosList;
         #endregion
 
         #region Properties
@@ -58,20 +59,17 @@ namespace FussionAdminEvidence.ViewModels
 
         private IEnumerable<PedidoItemViewModel> ToPedidoItemViewModel()
         {
-            return this.pedidosList.Select(p => new PedidoItemViewModel
-            {
-                Id=p.Id,
-                NumeroPedido=p.NumeroPedido,
-                FechaPedido=p.FechaPedido,
-                CodigoCliente=p.CodigoCliente,
-                NombreCliente=p.NombreCliente,
-                DireccionEntrega=p.DireccionEntrega,
-                NumeroCajas=p.NumeroCajas,
-                FolioFactura=p.FolioFactura,
-                Detalle=p.Detalle,
-                ItemCode=p.ItemCode,
-                Quantity=p.Quantity,
-                Comentarios=p.Comentarios
+            return this.pedidosList.Select(p => new PedidoItemViewModel { 
+                CardCode=p.CardCode,
+                CardName=p.CardName,
+                Address2=p.Address2,
+                Cajas=p.Cajas,
+                Items=p.Items,
+                FormattedId=p.FormattedId,
+                Identifier=p.Identifier,
+                IsValid=p.IsValid,
+                LastValidationErrorMessages=p.LastValidationErrorMessages,
+                LastValidationErrors=p.LastValidationErrors
             });
         }
 
@@ -88,8 +86,9 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            var response = await apiService.GetList<Pedido>("http://5e92feff3013.ngrok.io/", "/api/apiFussion/Pedidos", "/getPedidos.php");
-
+            //var response = await apiService.GetList<Pedido>("http://5e92feff3013.ngrok.io/", "/api/apiFussion/Pedidos", "/getPedidos.php");
+            //var response = await apiService.GetList<Pedido_>("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
+            var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
@@ -98,7 +97,8 @@ namespace FussionAdminEvidence.ViewModels
             }
 
             this.IsRefreshing = false;
-            this.pedidosList = (List<Pedido>)response.Result;
+
+            this.pedidosList = (List<Pedido_>)response.Result;
             this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
                 this.ToPedidoItemViewModel());
 
@@ -113,11 +113,13 @@ namespace FussionAdminEvidence.ViewModels
             }
             else
             {
+
                 this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
                     this.ToPedidoItemViewModel().Where(
-                        l => l.NumeroPedido.Contains(this.Filter) ||
-                             l.NombreCliente.ToLower().Contains(this.Filter.ToLower())
-                        ));
+                        p=>p.CardName.ToLower().Contains(this.Filter.ToLower())||
+                        p.CardCode.ToUpper().Contains(this.Filter.ToUpper())
+
+                    ));
             }
         }
 

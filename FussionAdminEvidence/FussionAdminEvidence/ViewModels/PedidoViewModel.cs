@@ -9,11 +9,11 @@ namespace FussionAdminEvidence.ViewModels
     public class PedidoViewModel:BaseViewModel
     {
         #region Attributes
-        private Pedido pedido;
+        private Pedido_ pedido;
         #endregion
 
         #region Properties
-        public Pedido Pedido
+        public Pedido_ Pedido
         {
             get { return this.pedido; }
             set { SetValue(ref this.pedido, value); }
@@ -22,7 +22,7 @@ namespace FussionAdminEvidence.ViewModels
 
         #region Constructors
 
-        public PedidoViewModel(Pedido pedido)
+        public PedidoViewModel(Pedido_ pedido)
         {
             this.pedido = pedido;
         }
