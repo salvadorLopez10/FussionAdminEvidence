@@ -87,7 +87,7 @@ namespace FussionAdminEvidence.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
-            //192.168.0.4/api/apiFussion/Pedidos/getPedidos.php
+
             var response = await apiService.GetList<Pedido>("http://5e92feff3013.ngrok.io/", "/api/apiFussion/Pedidos", "/getPedidos.php");
 
             if (!response.IsSuccess)
