@@ -7,6 +7,7 @@
              x:Class="FussionAdminEvidence.Views.PedidoPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Pedido">
+    <!--  BindingContext="{Binding Main, Source={StaticResource Locator}}"-->
 
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand" BindingContext="{Binding Pedido}">
@@ -32,9 +33,31 @@
                     <Label Text="Dirección:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Text="{Binding Pedido.Address2}" FontSize="12" HorizontalOptions="Center"/>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" Margin="20,10">
-                    <Label Text="Artículos:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </StackLayout>
+            </StackLayout>
+            <!--Artículos-->
+            <StackLayout Grid.Row="1" Orientation="Vertical" Margin="20,10">
+                <Label Text="Artículos:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <ListView
+                    ItemsSource="{Binding Pedido.Items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Código de Producto:"
+                               FontAttributes="Bold" />
+                                        <Label Text="{Binding ItemCode}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Cantidad:"
+                               FontAttributes="Bold" />
+                                        <Label Text="{Binding Quantity}" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
             <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="5" VerticalOptions="Start">
                 <StackLayout Orientation="Vertical">
