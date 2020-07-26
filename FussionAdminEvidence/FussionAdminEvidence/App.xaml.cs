@@ -10,8 +10,10 @@ namespace FussionAdminEvidence
         public App()
         {
             InitializeComponent();
-
+            
             MainPage = new NavigationPage(new LoginPage());
+            ((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.Black;
+            ((NavigationPage)Application.Current.MainPage).BarTextColor = Color.White;
         }
 
         protected override void OnStart()

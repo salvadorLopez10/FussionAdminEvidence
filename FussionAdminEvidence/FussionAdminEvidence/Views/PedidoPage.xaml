@@ -7,17 +7,58 @@
              x:Class="FussionAdminEvidence.Views.PedidoPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Pedido">
-    <ContentPage.Content>
-        <ScrollView
-            BindingContext="{Binding Pedido}">
-            <StackLayout
-                Padding="5">
-                <Label Text="{Binding Pedido.CardName}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            </StackLayout>
 
-        </ScrollView>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" BindingContext="{Binding Pedido}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Vertical" Margin="0,20" HorizontalOptions="Center" VerticalOptions="Center">
+                <!--Número de pedido-->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Pedido" FontSize="34" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label Text="{Binding Pedido.FormattedId}" FontSize="34" VerticalOptions="Center"/>
+                </StackLayout>
+                <!--Nombre Cliente-->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Cliente:" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="{Binding Pedido.CardName}" FontSize="15" HorizontalOptions="Center"/>
+                </StackLayout>
+                <!--Dirección-->
+                <StackLayout Orientation="Vertical" Margin="20,10" HorizontalOptions="Center">
+                    <Label Text="Dirección:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="{Binding Pedido.Address2}" FontSize="12" HorizontalOptions="Center"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="20,10">
+                    <Label Text="Artículos:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
+            <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="5" VerticalOptions="Start">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Capturar evidencia:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"/>
+                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"  Grid.Column="1"/>
+                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"  Grid.Column="2"/>
+                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"  Grid.Column="3"/>
+                </Grid>
+                </StackLayout>
+            </Frame>
+            <Button Grid.Row="3" Text="Firma del Cliente" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+        </Grid>
         
     </ContentPage.Content>
 </ContentPage>
