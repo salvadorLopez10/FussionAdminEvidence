@@ -83,13 +83,13 @@ namespace FussionAdminEvidence.ViewModels
             }
 
             this.IsRunning = true;
-            this.isEnabled = false;
+            this.IsEnabled = false;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
                 this.IsRunning = false;
-                this.isEnabled = true;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
                 return;
             }
@@ -97,25 +97,26 @@ namespace FussionAdminEvidence.ViewModels
             var usuario = this.NombreUsuario;
             var pass = this.Password;
 
-            var jsonData = "{\"model\": {\"UserName\": \""+usuario+"\",\"Password\": \""+pass+"\"}}";
-           
-            var response = await apiService.Login("https://apps.fussionweb.com/", "sietest/Account", "/loginmovile",jsonData);
+            var jsonData = "{\"model\": {\"UserName\": \"" + usuario + "\",\"Password\": \"" + pass + "\"}}";
+
+            var response = await apiService.Login("https://apps.fussionweb.com/", "sietest/Account", "/loginmovile", jsonData);
 
             if (!response.IsSuccess)
             {
                 this.IsRunning = false;
-                this.isEnabled = true;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                 this.NombreUsuario = string.Empty;
                 this.Password = string.Empty;
                 return;
             }
 
+            MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());
             this.NombreUsuario = string.Empty;
             this.Password = string.Empty;
             this.IsRunning = false;
-            MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());
+            this.IsEnabled = true;
         }
         #endregion
     }

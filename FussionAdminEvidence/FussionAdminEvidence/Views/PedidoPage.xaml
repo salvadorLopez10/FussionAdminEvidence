@@ -73,14 +73,42 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"/>
-                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"  Grid.Column="1"/>
-                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"  Grid.Column="2"/>
-                    <Image Source="ic_search_image.png" HorizontalOptions="Center" WidthRequest="50"  Grid.Column="3"/>
-                </Grid>
+                        <!-- Evidencia 1-->
+                        <Image Source="{Binding ImageSource}" HorizontalOptions="Center" WidthRequest="50">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding TakePictureEvidenceOneCommand}">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <!-- Evidencia 2-->
+                        <Image Source="{Binding ImageSourceTwo}"  HorizontalOptions="Center" WidthRequest="50" Grid.Column="1">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding TakePictureEvidenceTwoCommand}">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <!-- Evidencia 3-->
+                        <Image Source="{Binding ImageSourceThree}" HorizontalOptions="Center" WidthRequest="50" Grid.Column="2">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding TakePictureEvidenceThreeCommand}">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <!-- Evidencia 4-->
+                        <Image Source="{Binding ImageSourceFour}" HorizontalOptions="Center" WidthRequest="50" Grid.Column="3">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding TakePictureEvidenceFourCommand}">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
                 </StackLayout>
             </Frame>
-            <Button Grid.Row="3" Text="Firma del Cliente" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+            <Button Grid.Row="3" Text="Firma del Cliente" Command="{Binding Signature}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
         </Grid>
         
     </ContentPage.Content>
