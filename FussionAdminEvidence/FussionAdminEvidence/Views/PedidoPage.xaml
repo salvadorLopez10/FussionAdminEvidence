@@ -108,7 +108,7 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-            <Button Grid.Row="3" Text="Firma del Cliente" Command="{Binding Signature}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+            <Button Grid.Row="3" Text="Firma del Cliente" Command="{Binding GoToSignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
         </Grid>
         
     </ContentPage.Content>

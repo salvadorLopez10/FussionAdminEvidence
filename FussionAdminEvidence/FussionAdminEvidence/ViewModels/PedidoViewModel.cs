@@ -1,4 +1,5 @@
 ﻿using FussionAdminEvidence.Models;
+using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -216,6 +217,19 @@ namespace FussionAdminEvidence.ViewModels
                 });
                 this.IsEnabled = true;
             }
+        }
+
+        public ICommand GoToSignatureCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToSignature);
+            }
+        }
+
+        private async void GoToSignature()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new SignaturePage());
         }
 
 
