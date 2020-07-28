@@ -18,10 +18,8 @@ namespace FussionAdminEvidence
             var lista = persistenceService.GetValuesLogin("usuario", "horaLogin");
             var ultimoLogin = (long)lista[1];
             var now = DateTime.Now.Ticks;
-            var tiempoTranscurridoUltimoLogin = now - ultimoLogin;
-            TimeSpan ts = TimeSpan.FromTicks(tiempoTranscurridoUltimoLogin);
-            double minutesFromTs = ts.TotalMinutes;
-
+            
+            double minutesFromTs = calculaTiempoInactividad(now,ultimoLogin);
             //Si pasan más de 30 minutos de inactividad, vuelve a pedir el login
             if (minutesFromTs > 30.0)
             {
@@ -38,6 +36,15 @@ namespace FussionAdminEvidence
             }
 
             
+        }
+
+        public double calculaTiempoInactividad(long loginActual, long ultimoLogin)
+        {
+            var tiempoTranscurridoUltimoLogin = loginActual - ultimoLogin;
+            TimeSpan ts = TimeSpan.FromTicks(tiempoTranscurridoUltimoLogin);
+            double minutesFromTs = ts.TotalMinutes;
+
+            return minutesFromTs;
         }
 
         protected override void OnStart()
