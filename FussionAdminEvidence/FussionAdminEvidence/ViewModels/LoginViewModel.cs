@@ -4,6 +4,7 @@ using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -14,6 +15,7 @@ namespace FussionAdminEvidence.ViewModels
     {
         #region Services
         private ApiService apiService;
+        private PersistenceService persistenceService;
         #endregion
 
         #region Attributes
@@ -47,6 +49,7 @@ namespace FussionAdminEvidence.ViewModels
             get { return isEnabled; }
             set { SetValue(ref isEnabled, value); }
         }
+
         #endregion
 
         #region Constructors
@@ -56,6 +59,7 @@ namespace FussionAdminEvidence.ViewModels
             this.NombreUsuario = "luis@interdev.mx";
             this.Password = "Luis123+";
             this.apiService = new ApiService();
+            this.persistenceService = new PersistenceService();
         }
         #endregion
 
@@ -111,6 +115,7 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
+            this.persistenceService.SaveLogin(this.NombreUsuario,DateTime.Now);
             MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());
             this.NombreUsuario = string.Empty;
