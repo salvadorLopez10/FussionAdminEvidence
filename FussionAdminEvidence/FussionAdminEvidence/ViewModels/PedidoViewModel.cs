@@ -3,16 +3,13 @@ using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Text;
+using System.IO;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace FussionAdminEvidence.ViewModels
 {
-    public class PedidoViewModel:BaseViewModel
+    public class PedidoViewModel : BaseViewModel
     {
         #region Attributes
         private Pedido_ pedido;
@@ -20,7 +17,9 @@ namespace FussionAdminEvidence.ViewModels
         private ImageSource imageSourceTwo;
         private ImageSource imageSourceThree;
         private ImageSource imageSourceFour;
+        private ImageSource imageSourceSignature;
         private bool isEnabled;
+        private bool isEnabledSave;
         #endregion
 
         #region Properties
@@ -54,10 +53,22 @@ namespace FussionAdminEvidence.ViewModels
             set { SetValue(ref this.imageSourceFour, value); }
         }
 
+        public ImageSource ImageSourceSignature
+        {
+            get { return this.imageSourceSignature; }
+            set { SetValue(ref this.imageSourceSignature, value); }
+        }
+
         public bool IsEnabled
         {
             get { return isEnabled; }
             set { SetValue(ref isEnabled, value); }
+        }
+
+        public bool IsEnabledSave
+        {
+            get { return isEnabledSave; }
+            set { SetValue(ref isEnabledSave, value); }
         }
         #endregion
 
@@ -70,7 +81,10 @@ namespace FussionAdminEvidence.ViewModels
             this.ImageSourceTwo = "ic_search_image.png";
             this.ImageSourceThree = "ic_search_image.png";
             this.ImageSourceFour = "ic_search_image.png";
+            this.ImageSourceSignature = "ic_search_image.png";
             this.IsEnabled = false;
+            this.IsEnabledSave = false;
+
         }
         #endregion
 
@@ -229,9 +243,18 @@ namespace FussionAdminEvidence.ViewModels
 
         private async void GoToSignature()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new SignaturePage());
+            await Application.Current.MainPage.Navigation.PushAsync(new SignaturePage(this));
         }
 
+
+        #endregion
+
+        #region Methods
+        public void suscribeFirma(Stream st)
+        {
+            ImageSourceSignature = ImageSource.FromStream(() => st);
+            IsEnabledSave = true;
+        }
 
         #endregion
     }

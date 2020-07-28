@@ -8,14 +8,15 @@
              x:Class="FussionAdminEvidence.Views.SignaturePage">
     <StackLayout>
         <forms:SignaturePadView
-        StrokeColor="Black"
-        BackgroundColor="White"
-        StrokeWidth="3"
-        WidthRequest="280"
-        HeightRequest="360"
+            x:Name="PadView"
+            StrokeColor="Black"
+            BackgroundColor="White"
+            StrokeWidth="3"
+            WidthRequest="280"
+            HeightRequest="360"
         />
-
-        <Button Text="Confirmar" Command="{Binding SignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+        <!--<Button Text="Confirmar" Command="{Binding SignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>-->
+        <Button Text="Confirmar" Clicked="ConfirmSignature_Clicked" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
         <Button Text="Limpiar" Command="{Binding ClearSignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BorderRadius="20" TextColor="#fff"></Button>
         
 
