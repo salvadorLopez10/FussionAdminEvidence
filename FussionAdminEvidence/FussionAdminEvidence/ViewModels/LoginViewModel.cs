@@ -101,9 +101,12 @@ namespace FussionAdminEvidence.ViewModels
             var usuario = this.NombreUsuario;
             var pass = this.Password;
 
-            var jsonData = "{\"model\": {\"UserName\": \"" + usuario + "\",\"Password\": \"" + pass + "\"}}";
+            //var jsonData = "{\"model\": {\"UserName\": \"" + usuario + "\",\"Password\": \"" + pass + "\"}}";
+            string json = @"{'model':{'UserName': 'luis@interdev.mx','Password': 'Luis123+'}}";
 
-            var response = await apiService.Login("https://apps.fussionweb.com/", "sietest/Account", "/loginmovile", jsonData);
+            JObject jsonData = JObject.Parse(json);
+
+            var response = await apiService.Login("https://apps.fussionweb.com/", "sietest/Account", "/loginmovile", jsonData.ToString());
 
             if (!response.IsSuccess)
             {

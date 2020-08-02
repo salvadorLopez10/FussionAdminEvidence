@@ -50,6 +50,7 @@ namespace FussionAdminEvidence.Services
         {
             try
             {
+                
                 //var request = JsonConvert.SerializeObject(data);
                 var content = new StringContent(
                     data,
@@ -236,6 +237,49 @@ namespace FussionAdminEvidence.Services
                 };
             }
         }
+
+        public async Task<Response> GetChoferes(
+            string urlBase,
+            string servicePrefix,
+            string controller)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.GetAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var choferes = JObject.Parse(result).SelectToken("Context").ToString();
+                var lista_choferes = JsonConvert.DeserializeObject<List<Chofer>>(choferes);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Ok",
+                    Result = lista_choferes
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
 
         public async Task<Response> GetList<T>(
             string urlBase,

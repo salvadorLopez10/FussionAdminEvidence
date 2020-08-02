@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="FussionAdminEvidence.Views.ChoferesPage">
+    <ContentPage.Content>
+        <StackLayout BindingContext="{Binding Choferes}">
+            <SearchBar
+                Placeholder="Buscar chofer"
+                Text="{Binding Filter, Mode=TwoWay}"
+                SearchCommand="{Binding SearchChoferCommand}">
+            </SearchBar>
+            <ListView 
+                ItemsSource="{Binding Choferes}"
+                SeparatorVisibility="None"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                RefreshCommand="{Binding RefreshCommand}"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="5"
+                                   CornerRadius="20"
+                                   HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectChoferCommand}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"
+                                        Text="{Binding Nombre}">
+                                        </Label>
+                                    </StackLayout>
+                                    <Image
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    Source="ic_chevron_right"></Image>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
