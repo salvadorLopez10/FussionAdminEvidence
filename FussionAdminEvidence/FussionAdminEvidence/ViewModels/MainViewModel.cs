@@ -1,8 +1,12 @@
 ﻿using FussionAdminEvidence.Models;
+using FussionAdminEvidence.Views;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace FussionAdminEvidence.ViewModels
 {
@@ -17,6 +21,8 @@ namespace FussionAdminEvidence.ViewModels
 
         public ChoferesViewModel Choferes { get; set; }
 
+        public ChoferItemViewModel NuevoChofer { get; set; }
+
         #endregion
 
         #region Properties
@@ -30,6 +36,7 @@ namespace FussionAdminEvidence.ViewModels
             this.Login = new LoginViewModel();
             //this.Pedidos = new PedidosViewModel();
             //this.Choferes = new ChoferesViewModel();
+            this.NuevoChofer = new ChoferItemViewModel();
             this.LoadMenu();
         }
 
@@ -43,9 +50,9 @@ namespace FussionAdminEvidence.ViewModels
             if (instance == null)
             {
                 return new MainViewModel();
-            } 
+            }
 
-            return instance;    
+            return instance;
         }
 
         #endregion
@@ -56,9 +63,9 @@ namespace FussionAdminEvidence.ViewModels
             this.Menu = new ObservableCollection<MenuItemViewModel>();
             this.Menu.Add(new MenuItemViewModel
             {
-                Icon="ruta_icon",
-                PageName="RutasPage",
-                Title="Rutas"
+                Icon = "ruta_icon",
+                PageName = "RutasPage",
+                Title = "Rutas"
             });
             this.Menu.Add(new MenuItemViewModel
             {
@@ -74,5 +81,18 @@ namespace FussionAdminEvidence.ViewModels
             });
         }
         #endregion
+
+        public ICommand NewChoferCommand
+        {
+            get
+            {
+                return new RelayCommand(NewChofer);
+            }
+        }
+
+        private void NewChofer()
+        {
+            App.Navigator.PushAsync(new ChoferPage());
+        }
     }
 }

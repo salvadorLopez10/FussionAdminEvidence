@@ -20,7 +20,7 @@ namespace FussionAdminEvidence
             InitializeComponent();
 
             persistenceService = new PersistenceService();
-            double minutesFromTs = 40.0;
+            double minutesFromTs = 20.0;
             var lista = persistenceService.GetValuesLogin("usuario", "horaLogin");
             if (lista.Count>0)
             {
