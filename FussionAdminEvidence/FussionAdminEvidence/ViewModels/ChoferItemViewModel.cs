@@ -89,7 +89,21 @@ namespace FussionAdminEvidence.ViewModels
 
         private async void SelectChofer()
         {
-            await Application.Current.MainPage.DisplayAlert("PRUEBA", "MENSAJE TEMPORAL", "Aceptar");
+            bool respuesta = await Application.Current.MainPage.DisplayAlert("Asignar ruta", "¿Desea asignar ruta al chofer "+this.Nombre+"?", "SI", "NO");
+            if (respuesta)
+            {
+                MainViewModel.GetInstace().Ruta = new RutaViewModel
+                {
+                    RutaNombre="Ruta de: "+this.Nombre,
+                    NombreChofer = this.Nombre,
+                    Estado="PENDIENTE"
+                };
+                await App.Navigator.PushAsync(new RutaPage());
+            }
+            else
+            {
+                return;
+            }
 
         }
 

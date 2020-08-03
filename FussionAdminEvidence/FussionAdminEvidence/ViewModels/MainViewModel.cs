@@ -23,6 +23,8 @@ namespace FussionAdminEvidence.ViewModels
 
         public ChoferItemViewModel NuevoChofer { get; set; }
 
+        public RutaViewModel Ruta { get; set; }
+
         #endregion
 
         #region Properties
@@ -37,6 +39,7 @@ namespace FussionAdminEvidence.ViewModels
             //this.Pedidos = new PedidosViewModel();
             //this.Choferes = new ChoferesViewModel();
             this.NuevoChofer = new ChoferItemViewModel();
+            //this.Ruta = new RutaViewModel();
             this.LoadMenu();
         }
 
