@@ -1,4 +1,5 @@
-﻿using FussionAdminEvidence.Views;
+﻿using FussionAdminEvidence.Services;
+using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,10 @@ namespace FussionAdminEvidence.ViewModels
         public string Icon { get; set; }
         public string Title { get; set; }
         public string PageName { get; set; }
+
+        #region Services
+        //private PersistenceService persistenceService;
+        #endregion
 
         #region Commands
         public ICommand NavigateCommand
@@ -37,6 +42,9 @@ namespace FussionAdminEvidence.ViewModels
                     App.Navigator.PushAsync(new ChoferesPage());
                     break;
                 case "LoginPage":
+                    //persistenceService = new PersistenceService();
+                    PersistenceService.GetPersistenceService().RestoreKeysPersistance("usuario", "horaLogin");
+                    //persistenceService.RestoreKeysPersistance("usuario", "horaLogin");
                     Application.Current.MainPage = new LoginPage();
                     break;
                 default:

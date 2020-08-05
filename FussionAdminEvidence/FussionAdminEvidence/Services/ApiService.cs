@@ -71,12 +71,15 @@ namespace FussionAdminEvidence.Services
                 }
 
                 var result = await response.Content.ReadAsStringAsync();
-                if (result=="True")
+                var respuesta = JObject.Parse(result).SelectToken("Context").ToString();
+                var login = JObject.Parse(respuesta).SelectToken("Login").ToString();
+                var rol= JObject.Parse(respuesta).SelectToken("Rol").ToString();
+                if (login=="True")
                 {
                     return new Response
                     {
                         IsSuccess = true,
-                        Message = "Log in correcto",
+                        Message = rol,
                         Result = result,
                     };
 

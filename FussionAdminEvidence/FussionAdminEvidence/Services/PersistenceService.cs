@@ -7,7 +7,19 @@ namespace FussionAdminEvidence.Services
 {
     public class PersistenceService
     {
+        #region Singleton
+        private static PersistenceService ps;
 
+        public static PersistenceService GetPersistenceService()
+        {
+            if (ps == null)
+            {
+                return new PersistenceService();
+            }
+
+            return ps;
+        } 
+        #endregion
 
         #region Methods
         public void SaveLogin(string usuario, DateTime horaFecha)
@@ -21,7 +33,7 @@ namespace FussionAdminEvidence.Services
             var lista = new List<Object>();
             if (Preferences.ContainsKey(keyUsuario))
             {
-                var usuario = Preferences.Get(keyUsuario, "luis@interdev.mx");
+                var usuario = Preferences.Get(keyUsuario, "Supervisor");
                 lista.Add(usuario);
             }
 
@@ -32,6 +44,18 @@ namespace FussionAdminEvidence.Services
             }
 
             return lista;
+        }
+
+        public void RestoreKeysPersistance(string key1, string key2)
+        {
+            if (Preferences.ContainsKey(key1))
+            {
+                Preferences.Remove(key1);
+            }
+            if (Preferences.ContainsKey(key2))
+            {
+                Preferences.Remove(key2);
+            }
         }
 
         #endregion
