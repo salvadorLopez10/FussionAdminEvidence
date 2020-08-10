@@ -29,6 +29,7 @@ namespace FussionAdminEvidence.ViewModels
 
         #region Properties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
+        public ObservableCollection<MenuItemChoferViewModel> MenuChofer { get; set; }
         #endregion
 
         #region Constructors
@@ -41,6 +42,7 @@ namespace FussionAdminEvidence.ViewModels
             this.NuevoChofer = new ChoferItemViewModel();
             //this.Ruta = new RutaViewModel();
             this.LoadMenu();
+            this.LoadMenuChofer();
         }
 
         #endregion
@@ -77,6 +79,29 @@ namespace FussionAdminEvidence.ViewModels
                 Title = "Choferes"
             });
             this.Menu.Add(new MenuItemViewModel
+            {
+                Icon = "ic_close",
+                PageName = "LoginPage",
+                Title = "Cerrar Sesión"
+            });
+        }
+
+        private void LoadMenuChofer()
+        {
+            this.MenuChofer = new ObservableCollection<MenuItemChoferViewModel>();
+            this.MenuChofer.Add(new MenuItemChoferViewModel
+            {
+                Icon = "ic_profile",
+                PageName = "ProfilePage",
+                Title = "Perfil"
+            });
+            this.MenuChofer.Add(new MenuItemChoferViewModel
+            {
+                Icon = "ic_list",
+                PageName = "PedidosPage",
+                Title = "Pedidos"
+            });
+            this.MenuChofer.Add(new MenuItemChoferViewModel
             {
                 Icon = "ic_close",
                 PageName = "LoginPage",

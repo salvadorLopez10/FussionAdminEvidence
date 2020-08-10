@@ -14,6 +14,7 @@ namespace FussionAdminEvidence
         public static NavigationPage Navigator { get; internal set; }
 
         public static MasterPage Master { get; internal set; }
+        public static MasterPageChofer MasterChofer { get; internal set; }
 
         public App()
         {
@@ -24,8 +25,8 @@ namespace FussionAdminEvidence
             var lista = persistenceService.GetValuesLogin("usuario", "horaLogin");
             if (lista.Count>0)
             {
-                //var rol = (string)lista[0];
-                var rol = "Administrador";
+                var rol = (string)lista[0];
+                //var rol = "Administrador";
                 var ultimoLogin = (long)lista[1];
                 var now = DateTime.Now.Ticks;
 
@@ -44,14 +45,17 @@ namespace FussionAdminEvidence
                     if (rol== "Administrador")
                     {
                         //MainPage = new MasterPage();
-                        MainPage = new NavigationPage(new MasterPage());
+                        //MainPage = new NavigationPage(new MasterPage());
+                        MainPage = new MasterPage();
                     }
                     else
                     {
                         MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
-                        MainPage = new NavigationPage(new PedidosPage());
-                        ((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.Black;
-                        ((NavigationPage)Application.Current.MainPage).BarTextColor = Color.White;
+                        //MainPage = new NavigationPage(new PedidosPage());
+                        //((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.Black;
+                        //((NavigationPage)Application.Current.MainPage).BarTextColor = Color.White;
+                        //MainPage = new NavigationPage(new MasterPageChofer());
+                        MainPage= new MasterPageChofer();
 
                     }                    
                 }

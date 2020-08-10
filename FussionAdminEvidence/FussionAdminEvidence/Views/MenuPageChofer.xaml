@@ -7,7 +7,7 @@
              BackgroundColor="#f9f9f9"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Menu"
-             x:Class="FussionAdminEvidence.Views.MenuPage">
+             x:Class="FussionAdminEvidence.Views.MenuPageChofer">
     <ContentPage.Content>
         <StackLayout
                 Padding="15">
@@ -16,7 +16,7 @@
                    WidthRequest="50">
             </Image>
             <ListView
-                ItemsSource="{Binding Menu}"
+                ItemsSource="{Binding MenuChofer}"
                 HasUnevenRows="True"
                 SeparatorVisibility="None">
                 <ListView.ItemTemplate>
@@ -48,5 +48,4 @@
 
         </StackLayout>
     </ContentPage.Content>
-    
 </ContentPage>

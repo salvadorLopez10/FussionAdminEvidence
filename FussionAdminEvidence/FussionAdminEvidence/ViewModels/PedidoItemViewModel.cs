@@ -23,8 +23,8 @@ namespace FussionAdminEvidence.ViewModels
         private async void SelectPedido()
         {
             MainViewModel.GetInstace().Pedido = new PedidoViewModel(this);
-            await Application.Current.MainPage.Navigation.PushAsync(new PedidoPage());
-
+            //await Application.Current.MainPage.Navigation.PushAsync(new PedidoPage());
+            await App.Navigator.PushAsync(new PedidoPage());
         }
         #endregion
     }

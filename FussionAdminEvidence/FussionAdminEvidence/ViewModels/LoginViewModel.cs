@@ -56,8 +56,10 @@ namespace FussionAdminEvidence.ViewModels
         public LoginViewModel()
         {
             this.IsEnabled = true;
-            this.NombreUsuario = "luis@interdev.mx";
-            this.Password = "Luis123+";
+            //this.NombreUsuario = "luis@interdev.mx";
+            //this.Password = "Luis123+";
+            this.NombreUsuario = "prueba_app@fussionweb.com";
+            this.Password = "Prueba123+";
             this.apiService = new ApiService();
             this.persistenceService = new PersistenceService();
         }
@@ -118,8 +120,9 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
+
             this.persistenceService.SaveLogin(response.Message,DateTime.Now);
-            if (response.Message== "Administrador")
+            if (response.Message == "Administrador")
             {
                 Application.Current.MainPage = new MasterPage();
                 this.NombreUsuario = string.Empty;
@@ -131,7 +134,8 @@ namespace FussionAdminEvidence.ViewModels
             {
                 MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
                 //await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());
-                Application.Current.MainPage = new NavigationPage(new PedidosPage());
+                //Application.Current.MainPage = new NavigationPage(new PedidosPage());
+                Application.Current.MainPage = new MasterPageChofer();
                 //((NavigationPage)Application.Current.MainPage).BarBackgroundColor = Color.Black;
                 //((NavigationPage)Application.Current.MainPage).BarTextColor = Color.White;
                 this.NombreUsuario = string.Empty;
