@@ -122,5 +122,18 @@ namespace FussionAdminEvidence.ViewModels
         {
             App.Navigator.PushAsync(new ChoferPage());
         }
+
+        public ICommand NuevaRutaCommand
+        {
+            get
+            {
+                return new RelayCommand(NuevaRuta);
+            }
+        }
+
+        private void NuevaRuta()
+        {
+            App.Navigator.PushAsync(new RutaPage());
+        }
     }
 }

@@ -5,7 +5,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              Title="Rutas"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
              x:Class="FussionAdminEvidence.Views.RutasPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nuevo Ruta"
+                 IconImageSource=""
+                 Command="{Binding NuevaRutaCommand}"
+                 Order="Primary"
+                 Priority="0" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Página de rutas!"

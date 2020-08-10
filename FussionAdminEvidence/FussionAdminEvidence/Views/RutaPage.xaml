@@ -4,9 +4,10 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Ruta"
-             x:Class="FussionAdminEvidence.Views.RutaPage">
+             x:Class="FussionAdminEvidence.Views.RutaPage"
+             >
+    <!--BindingContext="{Binding Main, Source={StaticResource Locator}}"-->
     <ContentPage.Content>
         <ScrollView BindingContext="{Binding Ruta}">
             <Grid>
@@ -35,20 +36,58 @@
                     </StackLayout>
                     <StackLayout Grid.Row="3" Padding="10,5,10,5">
                         <Label Text="Estatus" FontAttributes="Bold" HorizontalOptions="Fill" />
-                        <Entry Placeholder="Requerido" Text="{Binding Estado}" HorizontalOptions="FillAndExpand"></Entry>
+                        <Picker Title="Estatus de la ruta">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Pendiente</x:String>
+                                    <x:String>Asignada</x:String>
+                                    <x:String>Cancelada</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
                     </StackLayout>
-                    <StackLayout Grid.Row="4" Padding="10,5,10,5">
-                        <Label Text="Fecha y Hora de inicio" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <Entry Placeholder="Requerido" Text="{Binding NombreRuta}" HorizontalOptions="FillAndExpand"></Entry>
-                    </StackLayout>
-                    <StackLayout Grid.Row="5" Padding="10,5,10,5">
-                        <Label Text="Hora de salida" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <Entry Placeholder="Requerido" Text="{Binding NombreRuta}" HorizontalOptions="FillAndExpand"></Entry>
-                    </StackLayout>
-                    <StackLayout Grid.Row="6" Padding="10,5,10,5">
-                        <Label Text="Hora de llegada" FontAttributes="Bold" HorizontalOptions="Fill" />
-                        <Entry Placeholder="Requerido" Text="{Binding NombreRuta}" HorizontalOptions="FillAndExpand"></Entry>
-                    </StackLayout>
+                    <Grid Grid.Row="4" Padding="10,5,10,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Fecha de salida" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
+                        <DatePicker Date="2020-08-09" Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="Hora de salida" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
+                        <TimePicker Time="4:15:26" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand"/>
+                    </Grid>
+                    <Grid Grid.Row="5" Padding="10,5,10,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Fecha de llegada" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
+                        <DatePicker Date="2020-08-09" Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="Hora de llegada" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
+                        <TimePicker Time="4:15:26" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand"/>
+                    </Grid>
+                    <Grid Grid.Row="6" Padding="10,5,10,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Km de Salida" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="Fill" />
+                        <Label Text="Km de Llegada" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="Fill" />
+                        <Entry Placeholder="Km de salida" Keyboard="Numeric" Grid.Row="1" Grid.Column="0" Text="{Binding KmSalida}" HorizontalOptions="FillAndExpand"></Entry>
+                        <Entry Placeholder="Km de llegada" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" Text="{Binding KmSalida}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Grid>
                     <Button Grid.Row="7" Margin="10,5,10,5" Text="Guardar ruta" Command="{Binding GuardarRutaCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
                 </Grid>
             </Grid>
