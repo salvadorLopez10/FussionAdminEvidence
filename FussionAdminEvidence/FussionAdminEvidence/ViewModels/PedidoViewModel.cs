@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.IO;
+using System.Net.Http.Headers;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -243,7 +244,8 @@ namespace FussionAdminEvidence.ViewModels
 
         private async void GoToSignature()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new SignaturePage(this));
+            //await Application.Current.MainPage.Navigation.PushAsync(new SignaturePage(this));
+            await App.Navigator.PushAsync(new SignaturePage(this));
         }
 
 

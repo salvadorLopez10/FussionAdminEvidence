@@ -21,7 +21,8 @@ namespace FussionAdminEvidence.Views
         {
             Stream firma = await PadView.GetImageStreamAsync(SignaturePad.Forms.SignatureImageFormat.Jpeg);
             pvm.suscribeFirma(firma);
-            await Application.Current.MainPage.Navigation.PopAsync();
+            //await Application.Current.MainPage.Navigation.PopAsync();
+            await App.Navigator.PopAsync();
             
         }
     }

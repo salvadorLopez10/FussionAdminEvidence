@@ -11,6 +11,8 @@
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
         <NavigationPage
+            BarBackgroundColor="#4C4C4C"
+            BarTextColor="White"
             x:Name="Navigator">
             <x:Arguments>
                 <pages:RutasPage/>
