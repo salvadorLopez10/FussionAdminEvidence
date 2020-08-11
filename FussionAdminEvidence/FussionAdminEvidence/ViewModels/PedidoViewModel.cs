@@ -1,6 +1,8 @@
 ﻿using FussionAdminEvidence.Models;
+using FussionAdminEvidence.Services;
 using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
+using Plugin.Geolocator.Abstractions;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.IO;
@@ -21,6 +23,7 @@ namespace FussionAdminEvidence.ViewModels
         private ImageSource imageSourceSignature;
         private bool isEnabled;
         private bool isEnabledSave;
+        private GeolocatorService geolocation;
         #endregion
 
         #region Properties
@@ -85,6 +88,7 @@ namespace FussionAdminEvidence.ViewModels
             this.ImageSourceSignature = "ic_search_image.png";
             this.IsEnabled = false;
             this.IsEnabledSave = false;
+            this.geolocation = new GeolocatorService();
 
         }
         #endregion
@@ -246,6 +250,28 @@ namespace FussionAdminEvidence.ViewModels
         {
             //await Application.Current.MainPage.Navigation.PushAsync(new SignaturePage(this));
             await App.Navigator.PushAsync(new SignaturePage(this));
+        }
+
+        public ICommand SavePedidoCommand
+        {
+            get
+            {
+                return new RelayCommand(SavePedido);
+            }
+        }
+
+        private async void SavePedido()
+        {
+            //Obteniendo ubicación actual
+            await this.geolocation.GetLocationAsync();
+            if (geolocation.Latitude != 0 && geolocation.Longitude != 0)
+            {
+                Position position = new Position(
+                    geolocation.Latitude,
+                    geolocation.Longitude);
+            }
+
+
         }
 
 
