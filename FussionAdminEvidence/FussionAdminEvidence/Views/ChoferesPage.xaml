@@ -4,9 +4,10 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             Title="Choferes"
+             Title="Seleccionar Chofer"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              x:Class="FussionAdminEvidence.Views.ChoferesPage">
+    <!--
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Nuevo Chofer"
                  IconImageSource=""
@@ -14,6 +15,7 @@
                  Order="Primary"
                  Priority="0" />
     </ContentPage.ToolbarItems>
+    -->
     <ContentPage.Content>
         <StackLayout BindingContext="{Binding Choferes}">
             <SearchBar

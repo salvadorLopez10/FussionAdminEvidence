@@ -6,8 +6,16 @@ namespace FussionAdminEvidence.Models
 {
     public class Ruta
     {
-        public string NombreRuta { get; set; }
+        public string Nombre { get; set; }
+        public DateTime Fecha { get; set; }
+        public TimeSpan HoraLlegada { get; set; }
+        public TimeSpan HoraSalida { get; set; }
+        public double KmSalida { get; set; }
+        public double KmLlegada { get; set; }
         public string Status { get; set; }
-        public string Chofer  { get; set; }
+        public Chofer Chofer { get; set; }
+        /*
+        public List<Pedido> DetalleRuta { get; set; }
+         */
     }
 }

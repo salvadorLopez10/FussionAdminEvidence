@@ -92,11 +92,23 @@ namespace FussionAdminEvidence.ViewModels
             bool respuesta = await Application.Current.MainPage.DisplayAlert("Asignar ruta", "¿Desea asignar ruta al chofer "+this.Nombre+"?", "SI", "NO");
             if (respuesta)
             {
+                var hora = DateTime.Now.Hour;
+                var minutos = DateTime.Now.Minute;
+                var segundos = DateTime.Now.Second;
+
+                
                 MainViewModel.GetInstace().Ruta = new RutaViewModel
                 {
-                    RutaNombre="Ruta de: "+this.Nombre,
-                    NombreChofer = this.Nombre,
-                    Estado="PENDIENTE"
+                    Nombre = "Ruta de: " + this.Nombre,
+                    Fecha = DateTime.Now,
+                    HoraLlegada = new TimeSpan(hora, minutos, segundos),
+                    HoraSalida = new TimeSpan(hora, minutos, segundos),
+                    KmSalida = 0.0,
+                    KmLlegada = 0.0,
+                    Chofer=this,
+                    NombreChofer=this.Nombre,
+                    Status="1",
+                    //DetalleRuta=""
                 };
                 await App.Navigator.PushAsync(new RutaPage());
             }

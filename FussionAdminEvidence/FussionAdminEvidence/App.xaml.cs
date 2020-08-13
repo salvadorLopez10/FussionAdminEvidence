@@ -46,6 +46,7 @@ namespace FussionAdminEvidence
                     {
                         //MainPage = new MasterPage();
                         //MainPage = new NavigationPage(new MasterPage());
+                        MainViewModel.GetInstace().Choferes = new ChoferesViewModel();
                         MainPage = new MasterPage();
                     }
                     else

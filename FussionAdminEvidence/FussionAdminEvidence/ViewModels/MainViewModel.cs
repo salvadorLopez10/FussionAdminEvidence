@@ -72,12 +72,14 @@ namespace FussionAdminEvidence.ViewModels
                 PageName = "RutasPage",
                 Title = "Rutas"
             });
+            
             this.Menu.Add(new MenuItemViewModel
             {
                 Icon = "chofer_icon",
                 PageName = "ChoferesPage",
                 Title = "Choferes"
             });
+            
             this.Menu.Add(new MenuItemViewModel
             {
                 Icon = "ic_close",
@@ -133,6 +135,7 @@ namespace FussionAdminEvidence.ViewModels
 
         private void NuevaRuta()
         {
+            this.Ruta = new RutaViewModel();
             App.Navigator.PushAsync(new RutaPage());
         }
     }

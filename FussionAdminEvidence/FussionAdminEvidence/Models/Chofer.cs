@@ -8,7 +8,7 @@ namespace FussionAdminEvidence.Models
     {
         public string Nombre { get; set; }
         public string FormattedId { get; set; }
-        public int Identifier { get; set; }
+        public string Identifier { get; set; }
         public bool IsValid { get; set; }
         public object LastValidationErrorMessages { get; set; }
         public object LastValidationErrors { get; set; }

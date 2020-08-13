@@ -15,7 +15,7 @@
             BarTextColor="White"
             x:Name="Navigator">
             <x:Arguments>
-                <pages:RutasPage/>
+                <pages:ChoferesPage/>
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

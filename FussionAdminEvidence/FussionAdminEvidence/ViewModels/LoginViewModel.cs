@@ -56,10 +56,10 @@ namespace FussionAdminEvidence.ViewModels
         public LoginViewModel()
         {
             this.IsEnabled = true;
-            //this.NombreUsuario = "luis@interdev.mx";
-            //this.Password = "Luis123+";
-            this.NombreUsuario = "prueba_app@fussionweb.com";
-            this.Password = "Prueba123+";
+            this.NombreUsuario = "luis@interdev.mx";
+            this.Password = "Luis123+";
+            //this.NombreUsuario = "prueba_app@fussionweb.com";
+            //this.Password = "Prueba123+";
             this.apiService = new ApiService();
             this.persistenceService = new PersistenceService();
         }
@@ -115,7 +115,6 @@ namespace FussionAdminEvidence.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
-                this.NombreUsuario = string.Empty;
                 this.Password = string.Empty;
                 return;
             }
@@ -124,6 +123,7 @@ namespace FussionAdminEvidence.ViewModels
             this.persistenceService.SaveLogin(response.Message,DateTime.Now);
             if (response.Message == "Administrador")
             {
+                MainViewModel.GetInstace().Choferes = new ChoferesViewModel();
                 Application.Current.MainPage = new MasterPage();
                 this.NombreUsuario = string.Empty;
                 this.Password = string.Empty;
