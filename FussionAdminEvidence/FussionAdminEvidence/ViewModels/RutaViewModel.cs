@@ -1,4 +1,5 @@
 ﻿using FussionAdminEvidence.Models;
+using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using Xamarin.Forms;
 
 namespace FussionAdminEvidence.ViewModels
 {
-    public class RutaViewModel: Ruta, INotifyPropertyChanged
+    public class RutaViewModel : Ruta, INotifyPropertyChanged
     {
         #region Properties
         private string rutaNombre;
@@ -18,6 +19,7 @@ namespace FussionAdminEvidence.ViewModels
         private DateTime currentDate;
         private TimeSpan currentHour;
         private bool isEnabled;
+
         #endregion
 
         #region Attributes
@@ -127,19 +129,39 @@ namespace FussionAdminEvidence.ViewModels
             this.CurrentDate = DateTime.Now;
             
         }
-        
-
-        public RutaViewModel()
+        */
+        public RutaViewModel(RutaViewModel rvm)
         {
-            this.CurrentDate = DateTime.Now;
-            var hora = DateTime.Now.Hour;
-            var minutos = DateTime.Now.Minute;
-            var segundos = DateTime.Now.Second;
-
-            CurrentHour = new TimeSpan(hora, minutos, segundos);
+            Nombre = rvm.Nombre;
+            Fecha = rvm.Fecha;
+            HoraLlegada = rvm.HoraLlegada;
+            HoraSalida = rvm.HoraSalida;
+            KmSalida = rvm.KmSalida;
+            KmLlegada = rvm.KmLlegada;
+            Chofer = rvm.Chofer;
+            NombreChofer = rvm.NombreChofer;
+            Status = rvm.Status;
+            DetalleRuta = rvm.DetalleRuta;
 
         }
-        */
+        public RutaViewModel()
+        {
+
+        }
+        #region Singleton
+        private static RutaViewModel instanceRuta;
+
+        public static RutaViewModel GetInstaceRuta()
+        {
+            if (instanceRuta == null)
+            {
+                return new RutaViewModel();
+            }
+
+            return instanceRuta;
+        }
+
+        #endregion
 
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -174,15 +196,37 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            if (this.KmSalida<=0.0)
+            if (this.KmSalida <= 0.0)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Favor de ingresar kilometraje de salida", "Aceptar");
                 return;
             }
         }
 
-            #endregion
-
-
+        public ICommand GotoSelectPedidosCommand
+        {
+            get
+            {
+                return new RelayCommand(GotoSelectPedidos);
+            }
         }
+
+        private async void GotoSelectPedidos()
+        {
+            MainViewModel.GetInstace().PedidosForRuta = new PedidosViewModel("flag",this);
+            //await App.Navigator.PushAsync(new PedidosForRutasPage());
+            await App.Current.MainPage.Navigation.PushModalAsync(new PedidosForRutasPage());
+        }
+
+        #endregion
+
+        #region Methods
+        public void addListPedidos(Pedido_ pedido)
+        {
+            DetalleRuta.Add(pedido);
+            IsEnabled = true;
+        }
+
+        #endregion
+    }
 }

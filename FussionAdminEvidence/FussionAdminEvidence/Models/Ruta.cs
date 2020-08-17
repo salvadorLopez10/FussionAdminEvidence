@@ -14,8 +14,7 @@ namespace FussionAdminEvidence.Models
         public double KmLlegada { get; set; }
         public string Status { get; set; }
         public Chofer Chofer { get; set; }
-        /*
-        public List<Pedido> DetalleRuta { get; set; }
-         */
+        public List<Pedido_> DetalleRuta { get; set; }
+        
     }
 }

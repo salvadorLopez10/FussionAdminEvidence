@@ -96,20 +96,20 @@ namespace FussionAdminEvidence.ViewModels
                 var minutos = DateTime.Now.Minute;
                 var segundos = DateTime.Now.Second;
 
-                
-                MainViewModel.GetInstace().Ruta = new RutaViewModel
-                {
-                    Nombre = "Ruta de: " + this.Nombre,
-                    Fecha = DateTime.Now,
-                    HoraLlegada = new TimeSpan(hora, minutos, segundos),
-                    HoraSalida = new TimeSpan(hora, minutos, segundos),
-                    KmSalida = 0.0,
-                    KmLlegada = 0.0,
-                    Chofer=this,
-                    NombreChofer=this.Nombre,
-                    Status="1",
-                    //DetalleRuta=""
-                };
+
+                RutaViewModel objRuta = new RutaViewModel();
+                objRuta.Nombre= "Ruta de: " + this.Nombre;
+                objRuta.Fecha = DateTime.Now;
+                objRuta.HoraLlegada = new TimeSpan(hora, minutos, segundos);
+                objRuta.HoraSalida = new TimeSpan(hora, minutos, segundos);
+                objRuta.KmSalida = 0.0;
+                objRuta.KmLlegada = 0.0;
+                objRuta.Chofer = this;
+                objRuta.NombreChofer = this.Nombre;
+                objRuta.Status = "1";
+                objRuta.DetalleRuta = new List<Pedido_>();
+
+                MainViewModel.GetInstace().Ruta = new RutaViewModel(objRuta);
                 await App.Navigator.PushAsync(new RutaPage());
             }
             else

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="FussionAdminEvidence.Views.PedidosForRutasPage">
+    <ContentPage.Content>
+        <StackLayout BindingContext="{Binding PedidosForRuta}">
+            <Label Text="Seleccionar pedidos para ruta" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <SearchBar
+                Placeholder="Buscar número de pedido"
+                Text="{Binding Filter, Mode=TwoWay}"
+                SearchCommand="{Binding SearchCommand}">
+            </SearchBar>
+            <ListView 
+                ItemsSource="{Binding PedidosForRuta}"
+                SeparatorVisibility="None"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                >
+                <!--RefreshCommand="{Binding RefreshCommand}"-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="5"
+                                   CornerRadius="20"
+                                   HasShadow="True">
+                                
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectPedidoForRutaCommand}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"
+                                        Text="{Binding CardCode}">
+                                        </Label>
+                                        <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"
+                                        Text="{Binding CardName}">
+                                        </Label>
+                                    </StackLayout>
+                                    <!--
+                                    <Image
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    Source="ic_chevron_right"></Image>
+                                    -->
+                                    <CheckBox
+                                        IsChecked="{Binding IsChecked}"
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        IsEnabled="False"
+                                        >
+                                    </CheckBox>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Confirmar" Margin="5,0,5,20" Command="{Binding AddPedidosToRutaCommand}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

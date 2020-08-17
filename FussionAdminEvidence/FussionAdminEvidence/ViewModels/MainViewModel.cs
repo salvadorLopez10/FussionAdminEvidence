@@ -25,6 +25,8 @@ namespace FussionAdminEvidence.ViewModels
 
         public RutaViewModel Ruta { get; set; }
 
+        public PedidosViewModel PedidosForRuta { get; set; }
+
         #endregion
 
         #region Properties
@@ -112,6 +114,7 @@ namespace FussionAdminEvidence.ViewModels
         }
         #endregion
 
+        #region Commands
         public ICommand NewChoferCommand
         {
             get
@@ -137,6 +140,7 @@ namespace FussionAdminEvidence.ViewModels
         {
             this.Ruta = new RutaViewModel();
             App.Navigator.PushAsync(new RutaPage());
-        }
+        } 
+        #endregion
     }
 }
