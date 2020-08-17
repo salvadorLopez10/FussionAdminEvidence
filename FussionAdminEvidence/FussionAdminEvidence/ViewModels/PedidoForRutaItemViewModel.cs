@@ -65,12 +65,22 @@ namespace FussionAdminEvidence.ViewModels
             {
                 this.IsChecked = true;
             }
-            //await Application.Current.MainPage.DisplayAlert("TEST","EL CLIENTE "+CardName , "Aceptar");
-            //listaPedidosRuta.Add(this);
             //PedidosViewModel.GetInstacePedidos().rvm.addListPedidos(listaPedidosRuta);
             //RutaViewModel.GetInstaceRuta().addListPedidos(this);
             var instanceRuta = PedidosViewModel.GetInstaceRutaVM();
-            instanceRuta.DetalleRuta.Add(this);
+            if (instanceRuta.DetalleRuta.Count>0 && this.IsChecked==false){
+                //Comprobar que el elemento elegido está en el arreglo y eliminarlo
+                //instanceRuta.DetalleRuta.Remove(p=>p.Identifier==this.Identifier);
+                var objetoPedido = instanceRuta.DetalleRuta.Find(p=>p.Identifier.Equals(this.Identifier));
+                if (objetoPedido!=null)
+                {
+                    instanceRuta.DetalleRuta.Remove(objetoPedido);
+                }
+            }
+            else
+            {
+                instanceRuta.DetalleRuta.Add(this);
+            }
 
         }
 
