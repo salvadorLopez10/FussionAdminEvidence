@@ -214,6 +214,22 @@ namespace FussionAdminEvidence.ViewModels
                         p.CardCode.ToUpper().Contains(this.Filter.ToUpper())
 
                     ));
+
+                
+            }
+
+            if (rvm.DetalleRuta.Count > 0)
+            {
+                foreach (var itemSeleccionado in rvm.DetalleRuta)
+                {
+                    foreach (var itemFromApi in this.PedidosForRuta)
+                    {
+                        if (itemFromApi.Identifier == itemSeleccionado.Identifier)
+                        {
+                            itemFromApi.IsChecked = true;
+                        }
+                    }
+                }
             }
         }
 
@@ -256,7 +272,7 @@ namespace FussionAdminEvidence.ViewModels
             var strDetallePedidos = "";
             foreach (var item in rvm.DetalleRuta)
             {
-                strDetallePedidos += "Pedido: " + item.FormattedId + Environment.NewLine + " Cliente: " + item.CardName+ Environment.NewLine+ Environment.NewLine;
+                strDetallePedidos += "Pedido: " + item.FormattedId + Environment.NewLine + "Cliente: " + item.CardName+ Environment.NewLine+ Environment.NewLine;
             }
             rvm.DetallePedidos = strDetallePedidos;
             rvm.IsVisibleListaPedidos = true;

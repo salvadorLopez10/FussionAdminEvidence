@@ -93,7 +93,7 @@
                     </Grid>
                     <StackLayout Grid.Row="7" Padding="10,5,10,5" IsVisible="{Binding IsVisibleListaPedidos}">
                         <Label Text="Pedidos" FontAttributes="Bold" HorizontalOptions="Fill"/>
-                        <Editor Placeholder="Requerido" Text="{Binding DetallePedidos}" IsReadOnly="True" HorizontalOptions="FillAndExpand"></Editor>
+                        <Editor Placeholder="Requerido" Text="{Binding DetallePedidos}" AutoSize="TextChanges" IsReadOnly="True" HorizontalOptions="FillAndExpand"></Editor>
                     </StackLayout>
                     <Button Grid.Row="8" Margin="10,5,10,5" Text="Asignar Pedidos" Command="{Binding GotoSelectPedidosCommand}" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
                     <Button Grid.Row="9" Margin="10,5,10,5" Text="Guardar ruta" Command="{Binding GuardarRutaCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
