@@ -28,7 +28,7 @@
                 SeparatorVisibility="None"
                 HasUnevenRows="True"
                 IsPullToRefreshEnabled="True"
-                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                IsRefreshing="{Binding IsRefreshingChoferes, Mode=TwoWay}"
                 RefreshCommand="{Binding RefreshCommand}"
                 >
                 <ListView.ItemTemplate>

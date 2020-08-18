@@ -4,12 +4,28 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="FussionAdminEvidence.Views.ProfilePage">
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="FussionAdminEvidence.Views.ProfilePage"
+             Title="Perfil de usuario">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Ventana de perfil"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid BindingContext="{Binding PerfilUsuario}">
+            <BoxView Color="#f9f9f9"></BoxView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="ic_profile.png" WidthRequest="200" Margin="0,50,0,20"></Image>
+                <StackLayout Grid.Row="1" Padding="30,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Label Text="Usuario:" FontSize="24" FontAttributes="Bold"></Label>
+                        <Label Text="luis@correo.com" FontSize="24"></Label>
+                    </StackLayout>
+                    <Button Text="Guardar" Command="{Binding AddFotoPerfilCommand}" IsEnabled="False" Margin="30" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+                    <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}"></ActivityIndicator>
+                </StackLayout>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

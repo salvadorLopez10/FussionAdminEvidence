@@ -13,8 +13,9 @@
         <ScrollView BindingContext="{Binding Ruta}">
             <Grid>
                 <BoxView Color="#f9f9f9"></BoxView>
-                <Grid >
+                <Grid VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -90,8 +91,12 @@
                         <Entry Placeholder="Requerido" Keyboard="Numeric" Grid.Row="1" Grid.Column="0" Text="{Binding KmSalida}" HorizontalOptions="FillAndExpand"></Entry>
                         <Entry Placeholder="" Keyboard="Numeric" IsEnabled="False" Grid.Row="1" Grid.Column="1" Text="{Binding KmLlegada}" HorizontalOptions="FillAndExpand"></Entry>
                     </Grid>
-                    <Button Grid.Row="7" Margin="10,5,10,5" Text="Asignar Pedidos" Command="{Binding GotoSelectPedidosCommand}" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
-                    <Button Grid.Row="8" Margin="10,5,10,5" Text="Guardar ruta" Command="{Binding GuardarRutaCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+                    <StackLayout Grid.Row="7" Padding="10,5,10,5" IsVisible="{Binding IsVisibleListaPedidos}">
+                        <Label Text="Pedidos" FontAttributes="Bold" HorizontalOptions="Fill"/>
+                        <Editor Placeholder="Requerido" Text="{Binding DetallePedidos}" IsReadOnly="True" HorizontalOptions="FillAndExpand"></Editor>
+                    </StackLayout>
+                    <Button Grid.Row="8" Margin="10,5,10,5" Text="Asignar Pedidos" Command="{Binding GotoSelectPedidosCommand}" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
+                    <Button Grid.Row="9" Margin="10,5,10,5" Text="Guardar ruta" Command="{Binding GuardarRutaCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
                 </Grid>
             </Grid>
 

@@ -240,8 +240,14 @@ namespace FussionAdminEvidence.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Elegir al menos un pedido", "Favor de elegir al menos un pedido de la lista", "Aceptar");
                 return;
             }
-            //PedidosViewModel.GetInstacePedidos().rvm.addListPedidos(listaPedidosRuta);
-            //await App.Navigator.PopAsync();
+            //Concatenar contenido del arreglo
+            var strDetallePedidos = "";
+            foreach (var item in rvm.DetalleRuta)
+            {
+                strDetallePedidos += "Pedido: " + item.FormattedId + Environment.NewLine + " Cliente: " + item.CardName+ Environment.NewLine+ Environment.NewLine;
+            }
+            rvm.DetallePedidos = strDetallePedidos;
+            rvm.IsVisibleListaPedidos = true;
             rvm.IsEnabled = true;
             await App.Current.MainPage.Navigation.PopModalAsync();
         }

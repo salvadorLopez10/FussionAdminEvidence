@@ -17,7 +17,7 @@ namespace FussionAdminEvidence.ViewModels
 
         #region Attributes
         private ObservableCollection<ChoferItemViewModel> choferes;
-        public bool isRefreshing;
+        private bool isRefreshingChoferes;
         private string filter;
         private List<Chofer> choferesList;
         #endregion
@@ -30,10 +30,10 @@ namespace FussionAdminEvidence.ViewModels
 
         }
 
-        public bool IsRefreshing
+        public bool IsRefreshingChoferes
         {
-            get { return this.isRefreshing; }
-            set { SetValue(ref this.isRefreshing, value); }
+            get { return this.isRefreshingChoferes; }
+            set { SetValue(ref this.isRefreshingChoferes, value); }
         }
 
         public string Filter
@@ -68,11 +68,11 @@ namespace FussionAdminEvidence.ViewModels
 
         private async void LoadChoferes()
         {
-            this.IsRefreshing = true;
+            this.IsRefreshingChoferes = true;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.IsRefreshingChoferes = false;
                 await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
 
                 await Application.Current.MainPage.Navigation.PopAsync();
@@ -83,12 +83,12 @@ namespace FussionAdminEvidence.ViewModels
             var response = await apiService.GetChoferes("https://apps.fussionweb.com/", "/sietest/Mobile", "/Choferes");
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.IsRefreshingChoferes = false;
                 await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                 return;
             }
 
-            this.IsRefreshing = false;
+            this.IsRefreshingChoferes = false;
 
             this.choferesList = (List<Chofer>)response.Result;
             this.Choferes = new ObservableCollection<ChoferItemViewModel>(

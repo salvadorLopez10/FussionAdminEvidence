@@ -138,8 +138,10 @@ namespace FussionAdminEvidence.ViewModels
 
         private void NuevaRuta()
         {
-            this.Ruta = new RutaViewModel();
-            App.Navigator.PushAsync(new RutaPage());
+            //this.Ruta = new RutaViewModel();
+            //App.Navigator.PushAsync(new RutaPage());
+            MainViewModel.GetInstace().Choferes = new ChoferesViewModel();
+            App.Navigator.PushAsync(new ChoferesPage());
         } 
         #endregion
     }

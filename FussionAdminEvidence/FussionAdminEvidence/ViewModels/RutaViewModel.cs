@@ -3,6 +3,7 @@ using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
@@ -19,6 +20,8 @@ namespace FussionAdminEvidence.ViewModels
         private DateTime currentDate;
         private TimeSpan currentHour;
         private bool isEnabled;
+        private bool isVisibleListaPedidos;
+        private string detallePedidos;
 
         #endregion
 
@@ -120,6 +123,38 @@ namespace FussionAdminEvidence.ViewModels
             }
         }
 
+        public bool IsVisibleListaPedidos
+        {
+            set
+            {
+                if (isVisibleListaPedidos != value)
+                {
+                    isVisibleListaPedidos = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsVisibleListaPedidos"));
+                }
+            }
+            get
+            {
+                return isVisibleListaPedidos;
+            }
+        }
+
+        public string DetallePedidos
+        {
+            set
+            {
+                if (detallePedidos != value)
+                {
+                    detallePedidos = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DetallePedidos"));
+                }
+            }
+            get
+            {
+                return detallePedidos;
+            }
+        }
+
         #endregion
 
         /*
@@ -132,6 +167,7 @@ namespace FussionAdminEvidence.ViewModels
         */
         public RutaViewModel(RutaViewModel rvm)
         {
+            IsVisibleListaPedidos = false;
             Nombre = rvm.Nombre;
             Fecha = rvm.Fecha;
             HoraLlegada = rvm.HoraLlegada;
@@ -142,6 +178,7 @@ namespace FussionAdminEvidence.ViewModels
             NombreChofer = rvm.NombreChofer;
             Status = rvm.Status;
             DetalleRuta = rvm.DetalleRuta;
+            //DetallePedidos = "PEDIDO 1" + Environment.NewLine + "Pedido 2" + Environment.NewLine + "Pedido 3" + Environment.NewLine;
 
         }
         public RutaViewModel()
