@@ -174,6 +174,18 @@ namespace FussionAdminEvidence.ViewModels
             this.PedidosForRuta = new ObservableCollection<PedidoForRutaItemViewModel>(
                 this.ToPedidoForRutaItemViewModel());
 
+            //Comparar PedidosForRuta con el arreglo del RutaViewModel para saber cuales son los que deben de tener check
+            if (rvm.DetalleRuta.Count>0){
+                foreach (var itemSeleccionado in rvm.DetalleRuta)
+                {
+                    foreach (var itemFromApi in this.PedidosForRuta)
+                    {
+                        if (itemFromApi.Identifier==itemSeleccionado.Identifier){
+                            itemFromApi.IsChecked = true;
+                        }
+                    }
+                }
+            }
 
         }
 

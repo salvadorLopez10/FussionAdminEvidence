@@ -88,12 +88,11 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            this.IsRefreshingChoferes = false;
-
             this.choferesList = (List<Chofer>)response.Result;
             this.Choferes = new ObservableCollection<ChoferItemViewModel>(
                 this.ToChoferItemViewModel());
-
+           
+            this.IsRefreshingChoferes = false;
         }
 
         private void Search()
