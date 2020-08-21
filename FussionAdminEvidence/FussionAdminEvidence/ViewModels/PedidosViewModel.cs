@@ -210,8 +210,8 @@ namespace FussionAdminEvidence.ViewModels
 
                 this.PedidosForRuta = new ObservableCollection<PedidoForRutaItemViewModel>(
                     this.ToPedidoForRutaItemViewModel().Where(
-                        p => p.CardName.ToLower().Contains(this.Filter.ToLower()) ||
-                        p.CardCode.ToUpper().Contains(this.Filter.ToUpper())
+                        p => p.FormattedId.ToLower().Contains(this.Filter.ToLower()) ||
+                        p.CardName.ToUpper().Contains(this.Filter.ToUpper())
 
                     ));
 

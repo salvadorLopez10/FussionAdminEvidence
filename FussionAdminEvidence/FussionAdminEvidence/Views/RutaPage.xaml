@@ -59,9 +59,9 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Text="Fecha de salida" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <DatePicker Date="{Binding Fecha}" Grid.Row="1" Grid.Column="0" Format="dd/MM/yyyy" IsEnabled="False" HorizontalOptions="FillAndExpand"/>
+                        <DatePicker Date="{Binding Fecha}" Grid.Row="1" Grid.Column="0" MinimumDate="{Binding Fecha}" Format="dd/MM/yyyy" HorizontalOptions="FillAndExpand"/>
                         <Label Text="Hora de salida" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <TimePicker Time="{Binding HoraLlegada, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Format="HH:mm" IsEnabled="False" HorizontalOptions="FillAndExpand"/>
+                        <TimePicker Time="{Binding HoraLlegada, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Format="HH:mm" HorizontalOptions="FillAndExpand"/>
                     </Grid>
                     <Grid Grid.Row="5" Padding="10,5,10,5">
                         <Grid.RowDefinitions>
@@ -73,9 +73,9 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Text="Fecha de llegada" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <DatePicker Date="{Binding Fecha}" Grid.Row="1" Grid.Column="0" Format="dd/MM/yyyy" IsEnabled="False" HorizontalOptions="FillAndExpand"/>
+                        <DatePicker Date="{Binding Fecha}" Grid.Row="1" Grid.Column="0" MinimumDate="{Binding Fecha}" Format="dd/MM/yyyy" HorizontalOptions="FillAndExpand"/>
                         <Label Text="Hora de llegada" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <TimePicker Time="{Binding HoraSalida}" Grid.Row="1" Grid.Column="1" Format="HH:mm" IsEnabled="False" HorizontalOptions="FillAndExpand"/>
+                        <TimePicker Time="{Binding HoraSalida}" Grid.Row="1" Grid.Column="1" Format="HH:mm" HorizontalOptions="FillAndExpand"/>
                     </Grid>
                     <Grid Grid.Row="6" Padding="10,5,10,5">
                         <Grid.RowDefinitions>
@@ -89,7 +89,7 @@
                         <Label Text="Km de Salida" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="Fill" />
                         <Label Text="Km de Llegada" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="Fill" />
                         <Entry Placeholder="Requerido" Keyboard="Numeric" Grid.Row="1" Grid.Column="0" Text="{Binding KmSalida}" HorizontalOptions="FillAndExpand"></Entry>
-                        <Entry Placeholder="" Keyboard="Numeric" IsEnabled="False" Grid.Row="1" Grid.Column="1" Text="{Binding KmLlegada}" HorizontalOptions="FillAndExpand"></Entry>
+                        <Entry Placeholder="" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" Text="{Binding KmLlegada}" HorizontalOptions="FillAndExpand"></Entry>
                     </Grid>
                     <StackLayout Grid.Row="7" Padding="10,5,10,5" IsVisible="{Binding IsVisibleListaPedidos}">
                         <Label Text="Pedidos" FontAttributes="Bold" HorizontalOptions="Fill"/>
