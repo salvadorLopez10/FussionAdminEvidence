@@ -90,6 +90,7 @@ namespace FussionAdminEvidence.ViewModels
                 CardName=p.CardName,
                 Address2=p.Address2,
                 Cajas=p.Cajas,
+                Fletera=p.Fletera,
                 Items=p.Items,
                 FormattedId=p.FormattedId,
                 Identifier=p.Identifier,
@@ -130,9 +131,9 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-                //var response = await apiService.GetList<Pedido>("http://5e92feff3013.ngrok.io/", "/api/apiFussion/Pedidos", "/getPedidos.php");
+            var idUsuario = "47c2e141-55e0-4857-9e15-ab48dd3a862e";
                 //var response = await apiService.GetList<Pedido_>("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
-             var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
+             var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
              if (!response.IsSuccess)
                 {
                     this.IsRefreshing = false;
@@ -203,8 +204,8 @@ namespace FussionAdminEvidence.ViewModels
 
                 this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
                     this.ToPedidoItemViewModel().Where(
-                        p=>p.CardName.ToLower().Contains(this.Filter.ToLower())||
-                        p.CardCode.ToUpper().Contains(this.Filter.ToUpper())
+                        p=>p.FormattedId.ToLower().Contains(this.Filter.ToLower())||
+                        p.CardName.ToUpper().Contains(this.Filter.ToUpper())
 
                     ));
 
@@ -218,19 +219,23 @@ namespace FussionAdminEvidence.ViewModels
                 
             }
 
-            if (rvm.DetalleRuta.Count > 0)
+            if (rvm != null)
             {
-                foreach (var itemSeleccionado in rvm.DetalleRuta)
+                if (rvm.DetalleRuta.Count > 0)
                 {
-                    foreach (var itemFromApi in this.PedidosForRuta)
+                    foreach (var itemSeleccionado in rvm.DetalleRuta)
                     {
-                        if (itemFromApi.Identifier == itemSeleccionado.Identifier)
+                        foreach (var itemFromApi in this.PedidosForRuta)
                         {
-                            itemFromApi.IsChecked = true;
+                            if (itemFromApi.Identifier == itemSeleccionado.Identifier)
+                            {
+                                itemFromApi.IsChecked = true;
+                            }
                         }
                     }
                 }
             }
+            
         }
 
         #endregion

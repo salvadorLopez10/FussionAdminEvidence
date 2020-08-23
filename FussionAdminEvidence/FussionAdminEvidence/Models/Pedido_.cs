@@ -10,6 +10,7 @@ namespace FussionAdminEvidence.Models
         public string CardName { get; set; }
         public string Address2 { get; set; }
         public int Cajas { get; set; }
+        public string Fletera { get; set; }
         public List<Item> Items { get; set; }
         public string FormattedId { get; set; }
         public int Identifier { get; set; }
