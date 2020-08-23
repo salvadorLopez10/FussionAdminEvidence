@@ -33,8 +33,9 @@ namespace FussionAdminEvidence.ViewModels
         {
             App.Master.IsPresented = false;
             switch (this.PageName)
-            { 
+            {
                 case "RutasPage":
+                    MainViewModel.GetInstace().Rutas = new RutasViewModel();
                     App.Navigator.PushAsync(new RutasPage());
                     break;
                 case "ChoferesPage":

@@ -15,10 +15,72 @@
                  Priority="0" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Página de rutas!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout BindingContext="{Binding Rutas}">
+            <SearchBar
+                Placeholder="Buscar por ruta o chofer asignado"
+                Text="{Binding Filter, Mode=TwoWay}"
+                SearchCommand="{Binding SearchRutaCommand}">
+            </SearchBar>
+            <ListView 
+                ItemsSource="{Binding Rutas}"
+                SeparatorVisibility="None"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                
+                RefreshCommand="{Binding RefreshCommand}"
+                >
+                <!--IsRefreshing="{Binding IsRefreshingChoferes, Mode=TwoWay}"-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="5"
+                                   CornerRadius="20"
+                                   HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectRutaCommand}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Grid.Column="0"
+                                        HorizontalOptions="End"
+                                        Source="ruta_icon"></Image>
+                                    <StackLayout
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                        Padding="5">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Medium"
+                                            Text="{Binding Nombre, StringFormat='Ruta: {0}'}">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Medium"
+                                            Text="{Binding Status, StringFormat='Status: {0}'}">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Medium"
+                                            Text="{Binding Chofer.Nombre, StringFormat='Chofer Asignado: {0}'}">
+                                        </Label>
+                                    </StackLayout>
+                                    <Image
+                                    Grid.Column="2"
+                                    HorizontalOptions="End"
+                                    Source="ic_chevron_right"></Image>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

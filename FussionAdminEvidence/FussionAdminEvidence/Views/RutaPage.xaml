@@ -39,14 +39,18 @@
                     </StackLayout>
                     <StackLayout Grid.Row="3" Padding="10,5,10,5">
                         <Label Text="Estatus" FontAttributes="Bold" HorizontalOptions="Fill" />
-                        <Picker Title="Selecciona un status">
+                        <Picker Title="Selecciona un status"
+                                ItemsSource="{Binding StatusRuta}"
+                                ItemDisplayBinding="{Binding Valor}"
+                                SelectedItem="{Binding StatusRutaSeleccionado}">
+                            <!--
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
-                                    <x:String>Pendiente</x:String>
-                                    <x:String>Asignada</x:String>
-                                    <x:String>Cancelada</x:String>
+                                    <x:String>Abierta</x:String>
+                                    <x:String>Cerrada</x:String>
                                 </x:Array>
                             </Picker.ItemsSource>
+                            -->
                         </Picker>
                     </StackLayout>
                     <Grid Grid.Row="4" Padding="10,5,10,5">
@@ -61,7 +65,7 @@
                         <Label Text="Fecha de salida" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
                         <DatePicker Date="{Binding Fecha}" Grid.Row="1" Grid.Column="0" MinimumDate="{Binding Fecha}" Format="dd/MM/yyyy" HorizontalOptions="FillAndExpand"/>
                         <Label Text="Hora de salida" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <TimePicker Time="{Binding HoraLlegada, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Format="HH:mm" HorizontalOptions="FillAndExpand"/>
+                        <TimePicker Time="{Binding TsHoraLlegada, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Format="HH:mm" HorizontalOptions="FillAndExpand"/>
                     </Grid>
                     <Grid Grid.Row="5" Padding="10,5,10,5">
                         <Grid.RowDefinitions>
@@ -75,7 +79,7 @@
                         <Label Text="Fecha de llegada" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
                         <DatePicker Date="{Binding Fecha}" Grid.Row="1" Grid.Column="0" MinimumDate="{Binding Fecha}" Format="dd/MM/yyyy" HorizontalOptions="FillAndExpand"/>
                         <Label Text="Hora de llegada" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" HorizontalOptions="FillAndExpand" />
-                        <TimePicker Time="{Binding HoraSalida}" Grid.Row="1" Grid.Column="1" Format="HH:mm" HorizontalOptions="FillAndExpand"/>
+                        <TimePicker Time="{Binding TsHoraSalida}" Grid.Row="1" Grid.Column="1" Format="HH:mm" HorizontalOptions="FillAndExpand"/>
                     </Grid>
                     <Grid Grid.Row="6" Padding="10,5,10,5">
                         <Grid.RowDefinitions>
@@ -95,7 +99,7 @@
                         <Label Text="Pedidos" FontAttributes="Bold" HorizontalOptions="Fill"/>
                         <Editor Placeholder="Requerido" Text="{Binding DetallePedidos}" AutoSize="TextChanges" IsReadOnly="True" HorizontalOptions="FillAndExpand"></Editor>
                     </StackLayout>
-                    <Button Grid.Row="8" Margin="10,5,10,5" Text="Asignar Pedidos" Command="{Binding GotoSelectPedidosCommand}" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
+                    <Button Grid.Row="8" Margin="10,5,10,5" Text="Asignar Pedidos" IsVisible="{Binding IsVisible}" Command="{Binding GotoSelectPedidosCommand}" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
                     <Button Grid.Row="9" Margin="10,5,10,5" Text="Guardar ruta" Command="{Binding GuardarRutaCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
                 </Grid>
             </Grid>

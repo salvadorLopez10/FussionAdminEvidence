@@ -17,12 +17,18 @@ namespace FussionAdminEvidence.ViewModels
         private string rutaNombre;
         private string estado;
         private string nombreChofer;
+        private List<StatusRuta> statusRuta;
+        private string stringStatus;
+        private StatusRuta statusRutaSeleccionado;
         private DateTime currentDate;
         private TimeSpan currentHour;
-        private bool isEnabled;
+        private bool isEnabled; 
+        private bool isVisibleRelatePedidos; 
         private bool isVisibleListaPedidos;
         private string detallePedidos;
 
+        private TimeSpan tsHoraLlegada;
+        private TimeSpan tsHoraSalida;
         #endregion
 
         #region Attributes
@@ -75,6 +81,54 @@ namespace FussionAdminEvidence.ViewModels
             }
         }
 
+        public List<StatusRuta> StatusRuta
+        {
+            set
+            {
+                if (statusRuta != value)
+                {
+                    statusRuta = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StatusRuta"));
+                }
+            }
+            get
+            {
+                return statusRuta;
+            }
+        }
+
+        public StatusRuta StatusRutaSeleccionado
+        {
+            set
+            {
+                if (statusRutaSeleccionado != value)
+                {
+                    statusRutaSeleccionado = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StatusRutaSeleccionado"));
+                }
+            }
+            get
+            {
+                return statusRutaSeleccionado;
+            }
+        }
+
+        public string StringStatus
+        {
+            set
+            {
+                if (stringStatus != value)
+                {
+                    stringStatus = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StringStatus"));
+                }
+            }
+            get
+            {
+                return stringStatus;
+            }
+        }
+
         public DateTime CurrentDate
         {
             set
@@ -123,6 +177,21 @@ namespace FussionAdminEvidence.ViewModels
             }
         }
 
+        public bool IsVisibleRelatePedidos
+        {
+            set
+            {
+                if (isVisibleRelatePedidos != value)
+                {
+                    isVisibleRelatePedidos = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsVisibleRelatePedidos"));
+                }
+            }
+            get
+            {
+                return isVisibleRelatePedidos;
+            }
+        }
         public bool IsVisibleListaPedidos
         {
             set
@@ -155,6 +224,38 @@ namespace FussionAdminEvidence.ViewModels
             }
         }
 
+        public TimeSpan TsHoraLlegada
+        {
+            set
+            {
+                if (tsHoraLlegada != value)
+                {
+                    tsHoraLlegada = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TsHoraLlegada"));
+                }
+            }
+            get
+            {
+                return tsHoraLlegada;
+            }
+        }
+
+        public TimeSpan TsHoraSalida
+        {
+            set
+            {
+                if (tsHoraSalida != value)
+                {
+                    tsHoraSalida = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TsHoraSalida"));
+                }
+            }
+            get
+            {
+                return tsHoraSalida;
+            }
+        }
+
         #endregion
 
         /*
@@ -179,6 +280,47 @@ namespace FussionAdminEvidence.ViewModels
             Status = rvm.Status;
             DetalleRuta = rvm.DetalleRuta;
             //DetallePedidos = "PEDIDO 1" + Environment.NewLine + "Pedido 2" + Environment.NewLine + "Pedido 3" + Environment.NewLine;
+
+        }
+        public RutaViewModel(Ruta ruta)
+        {
+            IsVisibleListaPedidos = true;
+            IsVisibleRelatePedidos = false;
+            Nombre = ruta.Nombre;
+            Fecha = ruta.Fecha;
+            HoraLlegada = ruta.HoraLlegada;
+            HoraSalida = ruta.HoraSalida;
+            KmSalida = ruta.KmSalida;
+            KmLlegada = ruta.KmLlegada;
+            Chofer = ruta.Chofer;
+            NombreChofer = ruta.Chofer.Nombre;
+            StatusRuta = new List<StatusRuta>();
+            StatusRuta.Add(new StatusRuta { Id="1",Valor="Abierta"});
+            StatusRuta.Add(new StatusRuta { Id="2",Valor="Cerrada"});
+            Status = ruta.Status;
+            
+            if (ruta.Status=="1")
+            {
+                //StringStatus = "Abierta";
+                StatusRutaSeleccionado = StatusRuta[0];
+            }
+            else
+            {
+                StatusRutaSeleccionado = StatusRuta[1];
+            }
+            DetalleRuta = ruta.DetalleRuta;
+            Pedidos = ruta.Pedidos;
+            DetallePedidos = "";
+            if (Pedidos.Count>0)
+            {
+                var strDetallePedidos = "";
+                foreach (var item in Pedidos)
+                {
+                    strDetallePedidos += "Pedido: " + item.FormattedId + Environment.NewLine + "Cliente: " + item.CardName + Environment.NewLine + Environment.NewLine;
+                }
+                DetallePedidos = strDetallePedidos;
+            }
+           
 
         }
         public RutaViewModel()
@@ -233,7 +375,7 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            if (this.KmSalida <= 0.0)
+            if (this.KmSalida <= 0.0m)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Favor de ingresar kilometraje de salida", "Aceptar");
                 return;

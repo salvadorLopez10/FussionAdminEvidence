@@ -25,6 +25,8 @@ namespace FussionAdminEvidence.ViewModels
 
         public RutaViewModel Ruta { get; set; }
 
+        public RutasViewModel Rutas { get; set; }
+
         public PedidosViewModel PedidosForRuta { get; set; }
 
         #endregion

@@ -241,6 +241,49 @@ namespace FussionAdminEvidence.Services
             }
         }
 
+        public async Task<Response> GetRutas(
+            string urlBase,
+            string servicePrefix,
+            string controller)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.GetAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var rutas = JObject.Parse(result).SelectToken("Context").ToString();
+                var lista_rutas = JsonConvert.DeserializeObject<List<Ruta>>(rutas);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Ok",
+                    Result = lista_rutas
+                    //Result = rutas
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
         public async Task<Response> GetChoferes(
             string urlBase,
             string servicePrefix,
