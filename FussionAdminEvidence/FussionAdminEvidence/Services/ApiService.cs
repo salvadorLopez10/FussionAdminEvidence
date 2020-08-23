@@ -330,12 +330,12 @@ namespace FussionAdminEvidence.Services
             string urlBase,
             string servicePrefix,
             string controller,
-            string data)
+            JObject data)
         {
             try
             {
                 var content = new StringContent(
-                    data,
+                    data.ToString(),
                     Encoding.UTF8,
                     "application/json");
                 var client = new HttpClient();

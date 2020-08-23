@@ -128,5 +128,13 @@ namespace FussionAdminEvidence.ViewModels
                 return new RelayCommand(Search);
             }
         }
+
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new RelayCommand(LoadRutas);
+            }
+        }
     }
 }

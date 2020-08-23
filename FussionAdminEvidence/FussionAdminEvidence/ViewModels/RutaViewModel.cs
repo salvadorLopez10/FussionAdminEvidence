@@ -523,9 +523,8 @@ namespace FussionAdminEvidence.ViewModels
 
                     this.IsRunning = true;
                     this.IsEnabled = false;
-                    await Application.Current.MainPage.DisplayAlert("Error", "MANDAR PETICION AQUI", "Aceptar");
-                    /*
-                    var connection = await this.apiService.CheckConnection();
+                    
+                   var connection = await this.apiService.CheckConnection();
                     if (!connection.IsSuccess)
                     {
                         this.IsRunning = false;
@@ -534,9 +533,15 @@ namespace FussionAdminEvidence.ViewModels
                         return;
                     }
 
-                    string json = "{\r\n\t\"Identifier\": \""+this.Identifier+"\",\r\n\t\"HoraLLegada\":\""+this.TsHoraLlegada.ToString()+"\",\r\n\t\"KmSalida\": "+this.KmSalida+ ",\r\n\t\"KmLlegada\": " + this.KmLlegada + ",\r\n\t\"Status\": "+this.StatusRutaSeleccionado.Id+"\r\n}";
+                    //string json = "{\r\n\t\"Identifier\": \""+this.Identifier+"\",\r\n\t\"HoraLLegada\":\""+this.TsHoraLlegada.ToString()+"\",\r\n\t\"KmSalida\": "+this.KmSalida+ ",\r\n\t\"KmLlegada\": " + this.KmLlegada + ",\r\n\t\"Status\": "+this.StatusRutaSeleccionado.Id+"\r\n}";
+                    JObject ruta = new JObject();
+                    ruta["Identifier"] = this.Identifier;
+                    ruta["HoraLLegada"] = string.Format("{0:hh\\:mm\\:ss}", this.TsHoraLlegada);
+                    ruta["KmSalida"] = this.KmSalida;
+                    ruta["KmLlegada"] =this.KmLlegada;
+                    ruta["Status"] = int.Parse(this.StatusRutaSeleccionado.Id);
 
-                    var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta",json);
+                    var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta", ruta);
                     if (!response.IsSuccess)
                     {
                         this.IsRunning = false;
@@ -544,7 +549,13 @@ namespace FussionAdminEvidence.ViewModels
                         await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                         return;
                     }
-                    */
+
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+
+                    await Application.Current.MainPage.DisplayAlert("Éxito", response.Message, "Aceptar");
+                    MainViewModel.GetInstace().Rutas = new RutasViewModel();
+                    await App.Navigator.PopAsync();
 
                 }
                 else
