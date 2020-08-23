@@ -326,6 +326,49 @@ namespace FussionAdminEvidence.Services
             }
         }
 
+        public async Task<Response> ActualizaRuta(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string data)
+        {
+            try
+            {
+                var content = new StringContent(
+                    data,
+                    Encoding.UTF8,
+                    "application/json");
+                var client = new HttpClient();
+                
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = JsonConvert.DeserializeObject<Response>(result);
+                    error.IsSuccess = false;
+                    return error;
+                }
+
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Ruta actualizada correctamente",
+                    Result = result,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
 
         public async Task<Response> GetList<T>(
             string urlBase,

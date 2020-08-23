@@ -1,4 +1,5 @@
 ﻿using FussionAdminEvidence.Models;
+using FussionAdminEvidence.Services;
 using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -13,6 +14,11 @@ namespace FussionAdminEvidence.ViewModels
 {
     public class RutaViewModel : Ruta, INotifyPropertyChanged
     {
+        #region Services
+        private ApiService apiService;
+        #endregion
+
+
         #region Properties
         private string rutaNombre;
         private string estado;
@@ -22,13 +28,19 @@ namespace FussionAdminEvidence.ViewModels
         private StatusRuta statusRutaSeleccionado;
         private DateTime currentDate;
         private TimeSpan currentHour;
-        private bool isEnabled; 
-        private bool isVisibleRelatePedidos; 
+        private bool isEnabled;
+        private bool isVisibleRelatePedidos;
         private bool isVisibleListaPedidos;
         private string detallePedidos;
 
+        private decimal kmSalidaInicial;
+        private decimal kmLlegadaInicial;
+
         private TimeSpan tsHoraLlegada;
         private TimeSpan tsHoraSalida;
+
+        private bool actualizar;
+        private bool isRunning;
         #endregion
 
         #region Attributes
@@ -103,6 +115,7 @@ namespace FussionAdminEvidence.ViewModels
             {
                 if (statusRutaSeleccionado != value)
                 {
+                    this.ActualizarRegistro(statusRutaSeleccionado,value.Valor);
                     statusRutaSeleccionado = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StatusRutaSeleccionado"));
                 }
@@ -256,6 +269,21 @@ namespace FussionAdminEvidence.ViewModels
             }
         }
 
+        public bool IsRunning
+        {
+            set
+            {
+                if (isRunning != value)
+                {
+                    isRunning = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRunning"));
+                }
+            }
+            get
+            {
+                return isRunning;
+            }
+        }
         #endregion
 
         /*
@@ -268,6 +296,7 @@ namespace FussionAdminEvidence.ViewModels
         */
         public RutaViewModel(RutaViewModel rvm)
         {
+            this.apiService = new ApiService();
             IsVisibleListaPedidos = false;
             Nombre = rvm.Nombre;
             Fecha = rvm.Fecha;
@@ -284,22 +313,31 @@ namespace FussionAdminEvidence.ViewModels
         }
         public RutaViewModel(Ruta ruta)
         {
+            this.apiService = new ApiService();
+            this.actualizar = false;
             IsVisibleListaPedidos = true;
             IsVisibleRelatePedidos = false;
+            IsEnabled = true;
+            Identifier = ruta.Identifier;
             Nombre = ruta.Nombre;
             Fecha = ruta.Fecha;
             HoraLlegada = ruta.HoraLlegada;
             HoraSalida = ruta.HoraSalida;
+
             KmSalida = ruta.KmSalida;
+            kmSalidaInicial = ruta.KmSalida;
+            
             KmLlegada = ruta.KmLlegada;
+            kmLlegadaInicial = ruta.KmLlegada;
+            
             Chofer = ruta.Chofer;
             NombreChofer = ruta.Chofer.Nombre;
             StatusRuta = new List<StatusRuta>();
-            StatusRuta.Add(new StatusRuta { Id="1",Valor="Abierta"});
-            StatusRuta.Add(new StatusRuta { Id="2",Valor="Cerrada"});
+            StatusRuta.Add(new StatusRuta { Id = "1", Valor = "Abierta" });
+            StatusRuta.Add(new StatusRuta { Id = "2", Valor = "Cerrada" });
             Status = ruta.Status;
-            
-            if (ruta.Status=="1")
+
+            if (ruta.Status == "1")
             {
                 //StringStatus = "Abierta";
                 StatusRutaSeleccionado = StatusRuta[0];
@@ -311,7 +349,7 @@ namespace FussionAdminEvidence.ViewModels
             DetalleRuta = ruta.DetalleRuta;
             Pedidos = ruta.Pedidos;
             DetallePedidos = "";
-            if (Pedidos.Count>0)
+            if (Pedidos.Count > 0)
             {
                 var strDetallePedidos = "";
                 foreach (var item in Pedidos)
@@ -320,7 +358,7 @@ namespace FussionAdminEvidence.ViewModels
                 }
                 DetallePedidos = strDetallePedidos;
             }
-           
+
 
         }
         public RutaViewModel()
@@ -380,14 +418,80 @@ namespace FussionAdminEvidence.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", "Favor de ingresar kilometraje de salida", "Aceptar");
                 return;
             }
+
+            if (this.KmLlegada <= 0.0m)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Favor de ingresar kilometraje de llegada", "Aceptar");
+                return;
+            }
+
+            if (this.KmLlegada <= this.KmSalida)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Kilometraje de llegada no puede ser menor o igual a kilometraje de salida", "Aceptar");
+                return;
+            }
+
+            this.ActualizarRegistroPorKm(this.kmSalidaInicial,KmSalida);
+            this.ActualizarRegistroPorKm(this.kmLlegadaInicial,KmLlegada);
+
+            if (this.actualizar)
+            {
+                //Mandar peticion
+                
+                this.IsRunning = true;
+                this.IsEnabled = false;
+                await Application.Current.MainPage.DisplayAlert("Error", "MANDAR PETICION AQUI", "Aceptar");
+                /*
+                var connection = await this.apiService.CheckConnection();
+                if (!connection.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+                    await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
+                    return;
+                }
+
+                string json = "{\r\n\t\"Identifier\": \""+this.Identifier+"\",\r\n\t\"HoraLLegada\":\""+this.TsHoraLlegada.ToString()+"\",\r\n\t\"KmSalida\": "+this.KmSalida+ ",\r\n\t\"KmLlegada\": " + this.KmLlegada + ",\r\n\t\"Status\": "+this.StatusRutaSeleccionado.Id+"\r\n}";
+
+                var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta",json);
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+                    await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                    return;
+                }
+                */
+
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Información", "No ha cambiado la información", "Aceptar");
+                await App.Navigator.PopAsync();
+            }
+
+            //this.IsEnabled = false;
+            
         }
 
         public ICommand GotoSelectPedidosCommand
         {
             get
             {
-                return new RelayCommand(GotoSelectPedidos);
+                return new RelayCommand(GotoSelectPedidos, DisableButton);
             }
+        }
+
+        private bool DisableButton(){
+            var puedeEjecutar = true;
+            if (this.FormattedId != null)
+            {
+                IsVisibleRelatePedidos = false;
+                puedeEjecutar = false;
+            }
+
+            return puedeEjecutar;
+           
         }
 
         private async void GotoSelectPedidos()
@@ -406,6 +510,23 @@ namespace FussionAdminEvidence.ViewModels
             IsEnabled = true;
         }
 
+        public void ActualizarRegistro(StatusRuta objStatus, string valorNuevo)
+        {
+            if (objStatus != null && objStatus.Valor != valorNuevo )
+            {
+                this.actualizar = true;
+            }
+            
+        }
+
+        public void ActualizarRegistroPorKm(decimal valorActual, decimal valorNuevo)
+        {
+            if (valorActual != 0.0m && valorActual != valorNuevo)
+            {
+                this.actualizar = true;
+            }
+
+        }
         #endregion
     }
 }

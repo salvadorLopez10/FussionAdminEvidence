@@ -60,6 +60,8 @@ namespace FussionAdminEvidence.ViewModels
         {
             return this.rutasList.Select(r=> new RutaItemViewModel
             {
+                FormattedId=r.FormattedId,
+                Identifier=r.Identifier,
                 Nombre= r.Nombre,
                 Fecha=r.Fecha,
                 HoraLlegada=r.HoraLlegada,
