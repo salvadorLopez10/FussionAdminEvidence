@@ -35,8 +35,8 @@ namespace FussionAdminEvidence.ViewModels
                     break;
                 case "PedidosPage":
                     MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
-                    Application.Current.MainPage = new NavigationPage(new PedidosPage());
-                    //App.Navigator.PushAsync(new PedidosPage());
+                    //Application.Current.MainPage = new NavigationPage(new PedidosPage());
+                    App.Navigator.PushAsync(new PedidosPage());
                     break;
                 case "LoginPage":
                     PersistenceService.GetPersistenceService().RestoreKeysPersistance("usuario", "horaLogin");

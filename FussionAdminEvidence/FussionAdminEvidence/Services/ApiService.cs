@@ -370,6 +370,50 @@ namespace FussionAdminEvidence.Services
             }
         }
 
+        public async Task<Response> ActualizarPedido(
+           string urlBase,
+           string servicePrefix,
+           string controller,
+           JArray data)
+        {
+            try
+            {
+                var content = new StringContent(
+                    data.ToString(),
+                    Encoding.UTF8,
+                    "application/json");
+                var client = new HttpClient();
+
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = JsonConvert.DeserializeObject<Response>(result);
+                    error.IsSuccess = false;
+                    return error;
+                }
+
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Pedido actualizado correctamene",
+                    Result = result,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
 
         public async Task<Response> InsertarRuta(
             string urlBase,

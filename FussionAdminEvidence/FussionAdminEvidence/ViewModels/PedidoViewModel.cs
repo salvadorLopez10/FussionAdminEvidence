@@ -2,18 +2,26 @@
 using FussionAdminEvidence.Services;
 using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json.Linq;
 using Plugin.Geolocator.Abstractions;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using System;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace FussionAdminEvidence.ViewModels
 {
     public class PedidoViewModel : BaseViewModel
     {
+        #region Services
+        private ApiService apiService;
+        #endregion
+
         #region Attributes
         private Pedido_ pedido;
         private ImageSource imageSource;
@@ -23,6 +31,7 @@ namespace FussionAdminEvidence.ViewModels
         private ImageSource imageSourceSignature;
         private bool isEnabled;
         private bool isEnabledSave;
+        private bool isRunning;
         private GeolocatorService geolocation;
         #endregion
 
@@ -74,12 +83,19 @@ namespace FussionAdminEvidence.ViewModels
             get { return isEnabledSave; }
             set { SetValue(ref isEnabledSave, value); }
         }
+
+        public bool IsRunning
+        {
+            get { return isRunning; }
+            set { SetValue(ref isRunning, value); }
+        }
         #endregion
 
         #region Constructors
 
         public PedidoViewModel(Pedido_ pedido)
         {
+            this.apiService = new ApiService();
             this.pedido = pedido;
             this.ImageSource = "ic_search_image.png";
             this.ImageSourceTwo = "ic_search_image.png";
@@ -264,12 +280,82 @@ namespace FussionAdminEvidence.ViewModels
         {
             //Obteniendo ubicación actual
             await this.geolocation.GetLocationAsync();
+            var ubicacion = "";
             if (geolocation.Latitude != 0 && geolocation.Longitude != 0)
             {
                 Position position = new Position(
                     geolocation.Latitude,
                     geolocation.Longitude);
+                ubicacion = geolocation.Latitude.ToString() + "," + geolocation.Longitude.ToString();
             }
+
+            //var byteArray = this.ImageSourceToByteArray(ImageSource);
+            //var stringBase64 = Convert.ToBase64String(byteArray);
+
+            //Armando body de petición
+            JArray arrPrincipal = new JArray();
+            JObject pedido = new JObject();
+            pedido["Pedido"] = this.Pedido.Identifier;
+            JArray evidencias = new JArray();
+            //Armar objetos de evidencias
+            JObject objEvidencia = new JObject();
+            objEvidencia["Imagen"] = "Evidencia 1";
+            objEvidencia["Tipo"] = 2;
+            evidencias.Add(objEvidencia);
+
+            JObject objEvidencia2 = new JObject();
+            objEvidencia2["Imagen"] = "Evidencia 2";
+            objEvidencia2["Tipo"] = 2;
+            evidencias.Add(objEvidencia2);
+
+            JObject objEvidencia3 = new JObject();
+            objEvidencia3["Imagen"] = "Evidencia 3";
+            objEvidencia3["Tipo"] = 2;
+            evidencias.Add(objEvidencia3);
+
+            JObject objFirma = new JObject();
+            objFirma["Imagen"] = "Evidencia 1";
+            objFirma["Tipo"] = 1;
+            evidencias.Add(objFirma);
+
+            pedido["Evidencias"] = evidencias;
+            pedido["Status"] = 2;//Entregado
+            pedido["Ubicacion"] = ubicacion;
+
+            arrPrincipal.Add(pedido);
+
+            this.IsRunning = true;
+            this.IsEnabled = false;
+            this.IsEnabledSave = false;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                this.IsEnabledSave = true;
+                await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
+                return;
+            }
+
+            var response = await apiService.ActualizarPedido("https://apps.fussionweb.com/", "sietest/Mobile", "/ActualizarPedido", arrPrincipal);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                this.IsEnabledSave = true;
+                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                return;
+            }
+            this.IsRunning = false;
+            this.IsEnabled = true;
+            this.IsEnabledSave = true;
+
+            await Application.Current.MainPage.DisplayAlert("Éxito", response.Message, "Aceptar");
+
+            MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
+            await App.Navigator.PopAsync();
 
 
         }
@@ -282,6 +368,23 @@ namespace FussionAdminEvidence.ViewModels
         {
             ImageSourceSignature = ImageSource.FromStream(() => st);
             IsEnabledSave = true;
+        }
+
+        private byte[] ImageSourceToByteArray(ImageSource source)
+        {
+            StreamImageSource streamImageSource = (StreamImageSource)source;
+            System.Threading.CancellationToken cancellationToken = System.Threading.CancellationToken.None;
+            Task<Stream> task = streamImageSource.Stream(cancellationToken);
+            Stream stream = task.Result;
+
+            byte[] b;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                b = ms.ToArray();
+            }
+
+            return b;
         }
 
         #endregion

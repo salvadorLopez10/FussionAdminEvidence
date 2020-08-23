@@ -17,6 +17,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <StackLayout Orientation="Vertical" Margin="0,20" HorizontalOptions="Center" VerticalOptions="Center">
                 <!--Número de pedido-->
@@ -117,6 +118,7 @@
             </Frame>
             <Button Grid.Row="3" Text="Firma del Cliente" Command="{Binding GoToSignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
             <Button Grid.Row="4" Text="Guardar" Command="{Binding SavePedidoCommand}" IsEnabled="{Binding IsEnabledSave, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+            <ActivityIndicator Grid.Row="5" IsRunning="{Binding IsRunning, Mode=TwoWay}"></ActivityIndicator>
         </Grid>
         
     </ContentPage.Content>
