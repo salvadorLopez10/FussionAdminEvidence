@@ -98,6 +98,7 @@ namespace FussionAdminEvidence.ViewModels
 
 
                 RutaViewModel objRuta = new RutaViewModel();
+                objRuta.Identifier = 0;
                 objRuta.Nombre= "Ruta de: " + this.Nombre;
                 objRuta.Fecha = DateTime.Now;
                 objRuta.TsHoraLlegada = new TimeSpan(hora, minutos, segundos);

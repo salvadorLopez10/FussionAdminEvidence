@@ -2,6 +2,7 @@
 using FussionAdminEvidence.Services;
 using FussionAdminEvidence.Views;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -298,6 +299,7 @@ namespace FussionAdminEvidence.ViewModels
         {
             this.apiService = new ApiService();
             IsVisibleListaPedidos = false;
+            IsVisibleRelatePedidos = true;
             Nombre = rvm.Nombre;
             Fecha = rvm.Fecha;
             HoraLlegada = rvm.HoraLlegada;
@@ -305,8 +307,22 @@ namespace FussionAdminEvidence.ViewModels
             KmSalida = rvm.KmSalida;
             KmLlegada = rvm.KmLlegada;
             Chofer = rvm.Chofer;
-            NombreChofer = rvm.NombreChofer;
+            NombreChofer = rvm.Chofer.Nombre;
+            StatusRuta = new List<StatusRuta>();
+            StatusRuta.Add(new StatusRuta { Id = "1", Valor = "Abierta" });
+            StatusRuta.Add(new StatusRuta { Id = "2", Valor = "Cerrada" });
             Status = rvm.Status;
+
+            if (rvm.Status == "1")
+            {
+                //StringStatus = "Abierta";
+                StatusRutaSeleccionado = StatusRuta[0];
+            }
+            else
+            {
+                StatusRutaSeleccionado = StatusRuta[1];
+            }
+
             DetalleRuta = rvm.DetalleRuta;
             //DetallePedidos = "PEDIDO 1" + Environment.NewLine + "Pedido 2" + Environment.NewLine + "Pedido 3" + Environment.NewLine;
 
@@ -431,17 +447,44 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            this.ActualizarRegistroPorKm(this.kmSalidaInicial,KmSalida);
-            this.ActualizarRegistroPorKm(this.kmLlegadaInicial,KmLlegada);
+            this.ActualizarRegistroPorKm(this.kmSalidaInicial, KmSalida);
+            this.ActualizarRegistroPorKm(this.kmLlegadaInicial, KmLlegada);
 
-            if (this.actualizar)
-            {
-                //Mandar peticion
+            //Al tener el Identifier igual a 0, quiere decir que es creación de Ruta
+            if (this.Identifier == 0) {
+                //Armar el cuerpo para petición
+                JObject ruta = new JObject();
+                ruta["Nombre"] = this.Nombre;
+                ruta["Fecha"] = this.Fecha.ToString("yyyy/MM/dd") ;
+                ruta["HoraLLegada"] = string.Format("{0:hh\\:mm\\:ss}", this.TsHoraLlegada);
+                ruta["HoraSalida"] = string.Format("{0:hh\\:mm\\:ss}", this.TsHoraSalida);
+                ruta["KmSalida"] = this.KmSalida;
+                ruta["KmLlegada"] = this.KmLlegada;
+                JObject objChofer = new JObject();
+                objChofer["Identifier"] = this.Chofer.Identifier;
+                ruta["Chofer"] = objChofer;
+                ruta["Status"] = 1;
+                JArray arrPedidos = new JArray();
                 
+                //ruta["DetalleRuta"]= new JArray();
+                if (this.DetalleRuta.Count>0)
+                {
+                    foreach (var item in this.DetalleRuta)
+                    {
+                        JObject itemPedido = new JObject();
+                        itemPedido["Pedido"] = item.Identifier;
+                        itemPedido["Status"] = 1;
+                        arrPedidos.Add(itemPedido);
+                    }
+                    ruta["DetalleRuta"] = arrPedidos;
+                    
+                }
+
+                //await Application.Current.MainPage.DisplayAlert("Info", ruta.ToString(), "Aceptar");
+                //Comienza petición para crear Ruta
                 this.IsRunning = true;
                 this.IsEnabled = false;
-                await Application.Current.MainPage.DisplayAlert("Error", "MANDAR PETICION AQUI", "Aceptar");
-                /*
+
                 var connection = await this.apiService.CheckConnection();
                 if (!connection.IsSuccess)
                 {
@@ -451,9 +494,8 @@ namespace FussionAdminEvidence.ViewModels
                     return;
                 }
 
-                string json = "{\r\n\t\"Identifier\": \""+this.Identifier+"\",\r\n\t\"HoraLLegada\":\""+this.TsHoraLlegada.ToString()+"\",\r\n\t\"KmSalida\": "+this.KmSalida+ ",\r\n\t\"KmLlegada\": " + this.KmLlegada + ",\r\n\t\"Status\": "+this.StatusRutaSeleccionado.Id+"\r\n}";
-
-                var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta",json);
+                var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sietest/Mobile", "/InsertarRuta", ruta);
+                
                 if (!response.IsSuccess)
                 {
                     this.IsRunning = false;
@@ -461,14 +503,59 @@ namespace FussionAdminEvidence.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                     return;
                 }
-                */
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await Application.Current.MainPage.DisplayAlert("Éxito", response.Message, "Aceptar");
+                //MainViewModel.GetInstace().Rutas = new RutasViewModel();
+                //await App.Navigator.PushAsync(new RutasPage());
+                MainViewModel.GetInstace().Choferes = new ChoferesViewModel();
+                Application.Current.MainPage = new MasterPage();
+
+
 
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Información", "No ha cambiado la información", "Aceptar");
-                await App.Navigator.PopAsync();
+                if (this.actualizar)
+                {
+                    //Mandar peticion
+
+                    this.IsRunning = true;
+                    this.IsEnabled = false;
+                    await Application.Current.MainPage.DisplayAlert("Error", "MANDAR PETICION AQUI", "Aceptar");
+                    /*
+                    var connection = await this.apiService.CheckConnection();
+                    if (!connection.IsSuccess)
+                    {
+                        this.IsRunning = false;
+                        this.IsEnabled = true;
+                        await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
+                        return;
+                    }
+
+                    string json = "{\r\n\t\"Identifier\": \""+this.Identifier+"\",\r\n\t\"HoraLLegada\":\""+this.TsHoraLlegada.ToString()+"\",\r\n\t\"KmSalida\": "+this.KmSalida+ ",\r\n\t\"KmLlegada\": " + this.KmLlegada + ",\r\n\t\"Status\": "+this.StatusRutaSeleccionado.Id+"\r\n}";
+
+                    var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta",json);
+                    if (!response.IsSuccess)
+                    {
+                        this.IsRunning = false;
+                        this.IsEnabled = true;
+                        await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                        return;
+                    }
+                    */
+
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Información", "No ha cambiado la información", "Aceptar");
+                    await App.Navigator.PopAsync();
+                }
+
             }
+
+            
 
             //this.IsEnabled = false;
             
