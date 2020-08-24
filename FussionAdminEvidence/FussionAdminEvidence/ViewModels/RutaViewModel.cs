@@ -320,6 +320,7 @@ namespace FussionAdminEvidence.ViewModels
             }
             else
             {
+                //StringStatus = "Cerrada";
                 StatusRutaSeleccionado = StatusRuta[1];
             }
 
@@ -355,7 +356,6 @@ namespace FussionAdminEvidence.ViewModels
 
             if (ruta.Status == "1")
             {
-                //StringStatus = "Abierta";
                 StatusRutaSeleccionado = StatusRuta[0];
             }
             else
@@ -435,17 +435,21 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            if (this.KmLlegada <= 0.0m)
+            if (this.Identifier!=0)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Favor de ingresar kilometraje de llegada", "Aceptar");
-                return;
-            }
+                if (this.KmLlegada <= 0.0m)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Favor de ingresar kilometraje de llegada", "Aceptar");
+                    return;
+                }
 
-            if (this.KmLlegada <= this.KmSalida)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Kilometraje de llegada no puede ser menor o igual a kilometraje de salida", "Aceptar");
-                return;
+                if (this.KmLlegada <= this.KmSalida)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Kilometraje de llegada no puede ser menor o igual a kilometraje de salida", "Aceptar");
+                    return;
+                }
             }
+            
 
             this.ActualizarRegistroPorKm(this.kmSalidaInicial, KmSalida);
             this.ActualizarRegistroPorKm(this.kmLlegadaInicial, KmLlegada);

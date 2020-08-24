@@ -266,6 +266,20 @@ namespace FussionAdminEvidence.Services
 
                 var rutas = JObject.Parse(result).SelectToken("Context").ToString();
                 var lista_rutas = JsonConvert.DeserializeObject<List<Ruta>>(rutas);
+                if (lista_rutas.Count>0){
+                    foreach (var item in lista_rutas)
+                    {
+                        if (item.Status=="1")
+                        {
+                            item.StringStatus = "Abierta";
+                        }
+                        else
+                        {
+                            item.StringStatus = "Cerrada";
+                        }
+                    }
+
+                }
 
                 return new Response
                 {

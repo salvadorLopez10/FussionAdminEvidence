@@ -52,11 +52,6 @@
                                         FontSize="Medium"
                                         Text="{Binding CardName}">
                                         </Label>
-                                        <Label
-                                        FontAttributes="Bold"
-                                        FontSize="Medium"
-                                        Text="Fletera: Nueva Fletera">
-                                        </Label>
                                     </StackLayout>
                                     <!--
                                     <Image

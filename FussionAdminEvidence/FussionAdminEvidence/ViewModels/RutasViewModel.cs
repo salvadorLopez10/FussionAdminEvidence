@@ -69,6 +69,7 @@ namespace FussionAdminEvidence.ViewModels
                 KmSalida=r.KmSalida,
                 KmLlegada=r.KmLlegada,
                 Status=r.Status,
+                StringStatus=r.StringStatus,
                 Chofer=r.Chofer,
                 DetalleRuta=r.DetalleRuta,
                 Pedidos=r.Pedidos
