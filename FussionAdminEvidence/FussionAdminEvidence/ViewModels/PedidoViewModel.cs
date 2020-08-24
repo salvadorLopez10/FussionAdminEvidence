@@ -278,6 +278,9 @@ namespace FussionAdminEvidence.ViewModels
 
         private async void SavePedido()
         {
+            this.IsRunning = true;
+            this.IsEnabled = false;
+            this.IsEnabledSave = false;
             //Obteniendo ubicación actual
             await this.geolocation.GetLocationAsync();
             var ubicacion = "";
@@ -323,10 +326,6 @@ namespace FussionAdminEvidence.ViewModels
             pedido["Ubicacion"] = ubicacion;
 
             arrPrincipal.Add(pedido);
-
-            this.IsRunning = true;
-            this.IsEnabled = false;
-            this.IsEnabledSave = false;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
