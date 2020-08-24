@@ -44,7 +44,7 @@ namespace FussionAdminEvidence.ViewModels
                     break;
                 case "LoginPage":
                     //persistenceService = new PersistenceService();
-                    PersistenceService.GetPersistenceService().RestoreKeysPersistance("usuario", "horaLogin");
+                    PersistenceService.GetPersistenceService().RestoreKeysPersistance("usuario", "horaLogin", "guid");
                     //persistenceService.RestoreKeysPersistance("usuario", "horaLogin");
                     Application.Current.MainPage = new LoginPage();
                     break;

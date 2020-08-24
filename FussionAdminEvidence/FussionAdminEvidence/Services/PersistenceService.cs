@@ -24,11 +24,24 @@ namespace FussionAdminEvidence.Services
         #region Methods
         public void SaveLogin(string usuario, DateTime horaFecha)
         {
-            Preferences.Set("usuario", usuario);
+            
+            string[] palabras = usuario.Split(' ');
+            Preferences.Set("usuario", palabras[0]);
+            Preferences.Set("guid", palabras[1]);
             Preferences.Set("horaLogin", horaFecha.Ticks);
         }
 
-        public List<Object> GetValuesLogin(string keyUsuario,string keyHoraLogin)
+        public string GetValuePreference(string key)
+        {
+            var usuario = "";
+            if (Preferences.ContainsKey(key))
+            {
+                usuario = Preferences.Get(key, "0");
+            }
+            return usuario;
+        }
+
+        public List<Object> GetValuesLogin(string keyUsuario,string keyHoraLogin,string guid)
         {
             var lista = new List<Object>();
             if (Preferences.ContainsKey(keyUsuario))
@@ -42,11 +55,16 @@ namespace FussionAdminEvidence.Services
                 var horaFecha = Preferences.Get(keyHoraLogin, DateTime.MinValue.Ticks);
                 lista.Add(horaFecha);
             }
+            if (Preferences.ContainsKey(guid))
+            {
+                var idUsuario = Preferences.Get(guid, "0");
+                lista.Add(idUsuario);
+            }
 
             return lista;
         }
 
-        public void RestoreKeysPersistance(string key1, string key2)
+        public void RestoreKeysPersistance(string key1, string key2,string key3)
         {
             if (Preferences.ContainsKey(key1))
             {
@@ -55,6 +73,10 @@ namespace FussionAdminEvidence.Services
             if (Preferences.ContainsKey(key2))
             {
                 Preferences.Remove(key2);
+            }
+            if (Preferences.ContainsKey(key3))
+            {
+                Preferences.Remove(key3);
             }
         }
 

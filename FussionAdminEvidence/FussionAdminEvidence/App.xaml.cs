@@ -22,7 +22,7 @@ namespace FussionAdminEvidence
 
             persistenceService = new PersistenceService();
             double minutesFromTs = 0.0;
-            var lista = persistenceService.GetValuesLogin("usuario", "horaLogin");
+            var lista = persistenceService.GetValuesLogin("usuario", "horaLogin", "guid");
             if (lista.Count>0)
             {
                 var rol = (string)lista[0];

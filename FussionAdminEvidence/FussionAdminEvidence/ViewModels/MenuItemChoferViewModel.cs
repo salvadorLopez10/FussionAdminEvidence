@@ -39,7 +39,7 @@ namespace FussionAdminEvidence.ViewModels
                     App.Navigator.PushAsync(new PedidosPage());
                     break;
                 case "LoginPage":
-                    PersistenceService.GetPersistenceService().RestoreKeysPersistance("usuario", "horaLogin");
+                    PersistenceService.GetPersistenceService().RestoreKeysPersistance("usuario", "horaLogin", "guid");
                     Application.Current.MainPage = new LoginPage();
                     break;
                 default:

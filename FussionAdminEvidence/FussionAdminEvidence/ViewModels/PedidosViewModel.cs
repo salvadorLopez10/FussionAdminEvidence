@@ -17,6 +17,7 @@ namespace FussionAdminEvidence.ViewModels
     {
         #region Services
         private ApiService apiService;
+        private PersistenceService persistenceService;
         #endregion
 
         #region Attributes
@@ -61,12 +62,14 @@ namespace FussionAdminEvidence.ViewModels
         public PedidosViewModel()
         {
             this.apiService = new ApiService();
+            this.persistenceService = new PersistenceService();
             this.LoadPedidos();
         }
 
         public PedidosViewModel(string bandera, RutaViewModel rutaVM)
         {
             this.apiService = new ApiService();
+            this.persistenceService = new PersistenceService();
             rvm = rutaVM;
             this.LoadPedidosForRuta();
         }
@@ -132,8 +135,10 @@ namespace FussionAdminEvidence.ViewModels
             }
 
             var idUsuario = "47c2e141-55e0-4857-9e15-ab48dd3a862e";
+            //var idUsuario = this.persistenceService.GetValuePreference("guid");
+
                 //var response = await apiService.GetList<Pedido_>("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
-             var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
+            var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
              if (!response.IsSuccess)
                 {
                     this.IsRefreshing = false;

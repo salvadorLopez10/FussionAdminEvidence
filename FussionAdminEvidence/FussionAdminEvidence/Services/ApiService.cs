@@ -74,12 +74,13 @@ namespace FussionAdminEvidence.Services
                 var respuesta = JObject.Parse(result).SelectToken("Context").ToString();
                 var login = JObject.Parse(respuesta).SelectToken("Login").ToString();
                 var rol= JObject.Parse(respuesta).SelectToken("Rol").ToString();
+                var guid= JObject.Parse(respuesta).SelectToken("Guid").ToString();
                 if (login=="True")
                 {
                     return new Response
                     {
                         IsSuccess = true,
-                        Message = rol,
+                        Message = rol+" "+guid,
                         Result = result,
                     };
 

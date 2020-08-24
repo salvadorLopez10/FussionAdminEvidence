@@ -8,5 +8,6 @@ namespace FussionAdminEvidence.Models
     {
         public bool Login { get; set; }
         public string Rol { get; set; }
+        public string Guid { get; set; }
     }
 }
