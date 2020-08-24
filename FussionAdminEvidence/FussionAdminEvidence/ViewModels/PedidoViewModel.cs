@@ -29,6 +29,13 @@ namespace FussionAdminEvidence.ViewModels
         private ImageSource imageSourceThree;
         private ImageSource imageSourceFour;
         private ImageSource imageSourceSignature;
+
+        public string imgEv1Base64;
+        public string imgEv2Base64;
+        public string imgEv3Base64;
+        public string imgEv4Base64;
+        public string imgFirmaBase64;
+
         private bool isEnabled;
         private bool isEnabledSave;
         private bool isRunning;
@@ -106,6 +113,13 @@ namespace FussionAdminEvidence.ViewModels
             this.IsEnabledSave = false;
             this.geolocation = new GeolocatorService();
 
+            //Se establecen vacias las cadenas que guardarán base64 de las imagenes de evidencia
+            this.imgEv1Base64 = "";
+            this.imgEv2Base64 = "";
+            this.imgEv3Base64 = "";
+            this.imgEv4Base64 = "";
+            this.imgFirmaBase64 = "";
+
         }
         #endregion
 
@@ -133,6 +147,11 @@ namespace FussionAdminEvidence.ViewModels
                 Name = "evidencia1.jpg",
                 PhotoSize = PhotoSize.Small,
             });
+
+            var streamEvidencia = file.GetStream();
+            var bytes= new byte[streamEvidencia.Length];
+            await streamEvidencia.ReadAsync(bytes, 0, (int)streamEvidencia.Length);
+            this.imgEv1Base64 = System.Convert.ToBase64String(bytes);
 
             if (file != null)
             {
@@ -170,6 +189,11 @@ namespace FussionAdminEvidence.ViewModels
                 PhotoSize = PhotoSize.Small,
             });
 
+            var streamEvidencia = file.GetStream();
+            var bytes = new byte[streamEvidencia.Length];
+            await streamEvidencia.ReadAsync(bytes, 0, (int)streamEvidencia.Length);
+            this.imgEv2Base64 = System.Convert.ToBase64String(bytes);
+
             if (file != null)
             {
                 ImageSourceTwo = ImageSource.FromStream(() =>
@@ -206,6 +230,11 @@ namespace FussionAdminEvidence.ViewModels
                 PhotoSize = PhotoSize.Small,
             });
 
+            var streamEvidencia = file.GetStream();
+            var bytes = new byte[streamEvidencia.Length];
+            await streamEvidencia.ReadAsync(bytes, 0, (int)streamEvidencia.Length);
+            this.imgEv3Base64 = System.Convert.ToBase64String(bytes);
+
             if (file != null)
             {
                 ImageSourceThree = ImageSource.FromStream(() =>
@@ -241,6 +270,11 @@ namespace FussionAdminEvidence.ViewModels
                 Name = "evidencia4.jpg",
                 PhotoSize = PhotoSize.Small,
             });
+
+            var streamEvidencia = file.GetStream();
+            var bytes = new byte[streamEvidencia.Length];
+            await streamEvidencia.ReadAsync(bytes, 0, (int)streamEvidencia.Length);
+            this.imgEv4Base64 = System.Convert.ToBase64String(bytes);
 
             if (file != null)
             {
@@ -301,25 +335,46 @@ namespace FussionAdminEvidence.ViewModels
             pedido["Pedido"] = this.Pedido.Identifier;
             JArray evidencias = new JArray();
             //Armar objetos de evidencias
-            JObject objEvidencia = new JObject();
-            objEvidencia["Imagen"] = "Evidencia 1";
-            objEvidencia["Tipo"] = 2;
-            evidencias.Add(objEvidencia);
+            if (this.imgEv1Base64!=""){
+                JObject objEvidencia = new JObject();
+                objEvidencia["Imagen"] = this.imgEv1Base64;
+                objEvidencia["Tipo"] = 2;
+                evidencias.Add(objEvidencia);
+            }
 
-            JObject objEvidencia2 = new JObject();
-            objEvidencia2["Imagen"] = "Evidencia 2";
-            objEvidencia2["Tipo"] = 2;
-            evidencias.Add(objEvidencia2);
+            if (this.imgEv2Base64!="")
+            {
+                JObject objEvidencia2 = new JObject();
+                objEvidencia2["Imagen"] =this.imgEv2Base64;
+                objEvidencia2["Tipo"] = 2;
+                evidencias.Add(objEvidencia2);
+            }
 
-            JObject objEvidencia3 = new JObject();
-            objEvidencia3["Imagen"] = "Evidencia 3";
-            objEvidencia3["Tipo"] = 2;
-            evidencias.Add(objEvidencia3);
+            if (this.imgEv3Base64!="")
+            {
+                JObject objEvidencia3 = new JObject();
+                objEvidencia3["Imagen"] = this.imgEv3Base64;
+                objEvidencia3["Tipo"] = 2;
+                evidencias.Add(objEvidencia3);
+            }
 
-            JObject objFirma = new JObject();
-            objFirma["Imagen"] = "Evidencia 1";
-            objFirma["Tipo"] = 1;
-            evidencias.Add(objFirma);
+            if (this.imgEv4Base64!="")
+            {
+                JObject objEvidencia4 = new JObject();
+                objEvidencia4["Imagen"] = this.imgEv4Base64;
+                objEvidencia4["Tipo"] = 2;
+                evidencias.Add(objEvidencia4);
+            }
+
+            //Objeto firma
+            if (this.imgFirmaBase64!="")
+            {
+                JObject objFirma = new JObject();
+                objFirma["Imagen"] =this.imgFirmaBase64;
+                objFirma["Tipo"] = 1;
+                evidencias.Add(objFirma);
+            }
+            
 
             pedido["Evidencias"] = evidencias;
             pedido["Status"] = 2;//Entregado
@@ -363,29 +418,16 @@ namespace FussionAdminEvidence.ViewModels
         #endregion
 
         #region Methods
-        public void suscribeFirma(Stream st)
+        public async void suscribeFirma(Stream st)
         {
             ImageSourceSignature = ImageSource.FromStream(() => st);
+
+            var bytes = new byte[st.Length];
+            await st.ReadAsync(bytes, 0, (int)st.Length);
+            this.imgFirmaBase64 = System.Convert.ToBase64String(bytes);
+
             IsEnabledSave = true;
         }
-
-        private byte[] ImageSourceToByteArray(ImageSource source)
-        {
-            StreamImageSource streamImageSource = (StreamImageSource)source;
-            System.Threading.CancellationToken cancellationToken = System.Threading.CancellationToken.None;
-            Task<Stream> task = streamImageSource.Stream(cancellationToken);
-            Stream stream = task.Result;
-
-            byte[] b;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                b = ms.ToArray();
-            }
-
-            return b;
-        }
-
         #endregion
     }
 }
