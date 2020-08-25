@@ -409,7 +409,9 @@ namespace FussionAdminEvidence.ViewModels
             await Application.Current.MainPage.DisplayAlert("Éxito", response.Message, "Aceptar");
 
             MainViewModel.GetInstace().Pedidos = new PedidosViewModel();
-            await App.Navigator.PopAsync();
+            //await App.Navigator.PopAsync();
+            //MainPage = new MasterPageChofer();
+            Application.Current.MainPage= new MasterPageChofer();
 
 
         }

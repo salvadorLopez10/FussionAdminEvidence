@@ -134,8 +134,9 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            var idUsuario = "47c2e141-55e0-4857-9e15-ab48dd3a862e";
-            //var idUsuario = this.persistenceService.GetValuePreference("guid");
+            //var idUsuario = "47c2e141-55e0-4857-9e15-ab48dd3a862e";
+            //var idUsuario = "fb9c3aff-ff58-4e3d-97c1-8dcdb50f02ce";
+            var idUsuario = this.persistenceService.GetValuePreference("guid");
 
                 //var response = await apiService.GetList<Pedido_>("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
             var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
@@ -151,6 +152,11 @@ namespace FussionAdminEvidence.ViewModels
              this.pedidosList = (List<Pedido_>)response.Result;
              this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
                     this.ToPedidoItemViewModel());
+
+            if (this.Pedidos.Count==0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Información","Usted no cuenta con pedidos asignados."+ Environment.NewLine+"Por favor contacte al administrador", "Aceptar");
+            }
         }
 
         private async void LoadPedidosForRuta()
