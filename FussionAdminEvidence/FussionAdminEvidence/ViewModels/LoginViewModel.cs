@@ -56,9 +56,12 @@ namespace FussionAdminEvidence.ViewModels
         public LoginViewModel()
         {
             this.IsEnabled = true;
-            this.NombreUsuario = "luis@interdev.mx";
-            this.Password = "Luis123+";
-            
+            this.NombreUsuario = "";
+            this.Password = "";
+
+            //this.NombreUsuario = "luis@interdev.mx";
+            //this.Password = "Luis123+";
+
             //this.NombreUsuario = "prueba_app@fussionweb.com";
             //this.Password = "Prueba123+";
             this.apiService = new ApiService();
