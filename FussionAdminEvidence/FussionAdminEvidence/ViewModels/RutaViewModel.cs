@@ -498,6 +498,46 @@ namespace FussionAdminEvidence.ViewModels
                     return;
                 }
 
+                //Validar que la ruta que se intenta crear no contenga un nombre duplicado
+                var responseRutas = await apiService.GetRutas("https://apps.fussionweb.com/", "/sietest/Mobile", "/Rutas");
+                var rutasList = (List<Ruta>)responseRutas.Result;
+                var existeNombreRuta = false;
+                var choferAsignadoConRuta = false;
+                if (rutasList.Count>0)
+                {
+                    foreach (var item in rutasList)
+                    {
+                        if (string.Equals(item.Nombre,this.Nombre))
+                        {
+                            existeNombreRuta = true;
+                        }
+
+                        if (string.Equals(this.Chofer.FormattedId, item.Chofer.FormattedId) && string.Equals(item.Status, "1"))
+                        {
+                            choferAsignadoConRuta = true;
+                        }
+                    }
+
+                    if (existeNombreRuta)
+                    {
+                        this.IsRunning = false;
+                        this.IsEnabled = true;
+                        await Application.Current.MainPage.DisplayAlert("Error", "El nombre de la ruta ya existe "+Environment.NewLine+"Favor de elegir uno nuevo", "Aceptar");
+                        return;
+                    }
+
+                    if (choferAsignadoConRuta)
+                    {
+                        this.IsRunning = false;
+                        this.IsEnabled = true;
+                        await Application.Current.MainPage.DisplayAlert("Error", "El chofer asignado ya cuenta con Rutas Abiertas" + Environment.NewLine + "Favor de elegir uno nuevo y/o cerrar las rutas asignadas a "+this.Chofer.Nombre, "Aceptar");
+                        await App.Navigator.PopAsync();
+                        return;
+                    }
+                }
+
+
+                //var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sie/Mobile", "/InsertarRuta", ruta);
                 var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sietest/Mobile", "/InsertarRuta", ruta);
                 
                 if (!response.IsSuccess)
@@ -545,6 +585,7 @@ namespace FussionAdminEvidence.ViewModels
                     ruta["KmLlegada"] =this.KmLlegada;
                     ruta["Status"] = int.Parse(this.StatusRutaSeleccionado.Id);
 
+                    //var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sie/Mobile", "/ActualizarRuta", ruta);
                     var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta", ruta);
                     if (!response.IsSuccess)
                     {

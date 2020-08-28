@@ -392,6 +392,7 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
+            //var response = await apiService.ActualizarPedido("https://apps.fussionweb.com/", "sie/Mobile", "/ActualizarPedido", arrPrincipal);
             var response = await apiService.ActualizarPedido("https://apps.fussionweb.com/", "sietest/Mobile", "/ActualizarPedido", arrPrincipal);
 
             if (!response.IsSuccess)

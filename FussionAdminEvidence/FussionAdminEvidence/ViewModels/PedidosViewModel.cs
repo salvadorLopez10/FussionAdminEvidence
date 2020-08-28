@@ -139,6 +139,7 @@ namespace FussionAdminEvidence.ViewModels
             var idUsuario = this.persistenceService.GetValuePreference("guid");
 
                 //var response = await apiService.GetList<Pedido_>("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
+            //var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sie/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
             var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
              if (!response.IsSuccess)
                 {
@@ -172,6 +173,7 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
+            //var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sie/Mobile", "/Pedidos");
             var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
             if (!response.IsSuccess)
             {
