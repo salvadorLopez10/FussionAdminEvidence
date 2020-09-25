@@ -18,6 +18,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <StackLayout Orientation="Vertical" Margin="0,20" HorizontalOptions="Center" VerticalOptions="Center">
                 <!--Número de pedido-->
@@ -30,17 +31,20 @@
                     <Label Text="Cliente:" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Text="{Binding Pedido.CardName}" FontSize="15" HorizontalOptions="Center"/>
                 </StackLayout>
+                
+            </StackLayout>
+            <StackLayout Grid.Row="1" Orientation="Vertical" Margin="0" HorizontalOptions="Center" VerticalOptions="Center">
                 <!--Dirección-->
-                <StackLayout Orientation="Vertical" Margin="20,10" HorizontalOptions="Center">
+                <StackLayout Orientation="Vertical" Margin="10" HorizontalOptions="Center">
                     <Label Text="Dirección:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Text="{Binding Pedido.Address2}" FontSize="12" HorizontalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
             <!--Artículos-->
-            <StackLayout Grid.Row="1" Orientation="Vertical" Margin="20,10">
+            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0">
                 <Label Text="Artículos:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
                 <ListView
-                    ItemsSource="{Binding Pedido.Items}">
+                    ItemsSource="{Binding Pedido.Items}" Margin="10">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -61,63 +65,67 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-            <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="5" VerticalOptions="Start">
-                <StackLayout Orientation="Vertical">
-                    <Label Text="Capturar evidencia:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                        <!-- Evidencia 1-->
-                        <Image Source="{Binding ImageSource}" HorizontalOptions="Center" WidthRequest="50">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer
+            <StackLayout Grid.Row="3" Orientation="Vertical">
+                <Frame HasShadow="True" CornerRadius="10" VerticalOptions="Start">
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="Capturar evidencia:" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- Evidencia 1-->
+                            <Image Source="{Binding ImageSource}" HorizontalOptions="Center" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
                                     Command="{Binding TakePictureEvidenceOneCommand}">
-                                </TapGestureRecognizer>
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <!-- Evidencia 2-->
-                        <Image Source="{Binding ImageSourceTwo}"  HorizontalOptions="Center" WidthRequest="50" Grid.Column="1">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer
+                                    </TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <!-- Evidencia 2-->
+                            <Image Source="{Binding ImageSourceTwo}"  HorizontalOptions="Center" WidthRequest="50" Grid.Column="1">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
                                     Command="{Binding TakePictureEvidenceTwoCommand}">
-                                </TapGestureRecognizer>
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <!-- Evidencia 3-->
-                        <Image Source="{Binding ImageSourceThree}" HorizontalOptions="Center" WidthRequest="50" Grid.Column="2">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer
+                                    </TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <!-- Evidencia 3-->
+                            <Image Source="{Binding ImageSourceThree}" HorizontalOptions="Center" WidthRequest="50" Grid.Column="2">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
                                     Command="{Binding TakePictureEvidenceThreeCommand}">
-                                </TapGestureRecognizer>
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <!-- Evidencia 4-->
-                        <Image Source="{Binding ImageSourceFour}" HorizontalOptions="Center" WidthRequest="50" Grid.Column="3">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer
+                                    </TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <!-- Evidencia 4-->
+                            <Image Source="{Binding ImageSourceFour}" HorizontalOptions="Center" WidthRequest="50" Grid.Column="3">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
                                     Command="{Binding TakePictureEvidenceFourCommand}">
-                                </TapGestureRecognizer>
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <!-- Imagen de firma, oculta -->
-                        <Image Source="{Binding ImageSourceSignature}"
+                                    </TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <!-- Imagen de firma, oculta -->
+                            <Image Source="{Binding ImageSourceSignature}"
                                HorizontalOptions="Center"
                                WidthRequest="50"
                                IsVisible="False">
-                        </Image>
-                    </Grid>
-                </StackLayout>
-            </Frame>
-            <Button Grid.Row="3" Text="Firma del Cliente" Command="{Binding GoToSignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
-            <Button Grid.Row="4" Text="Guardar" Command="{Binding SavePedidoCommand}" IsEnabled="{Binding IsEnabledSave, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
+                            </Image>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+
+            </StackLayout>
+            
+            <Button Grid.Row="4" Text="Firma del Cliente" Command="{Binding GoToSignatureCommand}" IsEnabled="{Binding IsEnabled, Mode=TwoWay}" Margin="5,10,5,20" BackgroundColor="#4C4C4C" BorderRadius="20" TextColor="#fff"></Button>
+            <Button Grid.Row="5" Text="Guardar" Command="{Binding SavePedidoCommand}" IsEnabled="{Binding IsEnabledSave, Mode=TwoWay}" Margin="5,0,5,20" BackgroundColor="#cf2127" BorderRadius="20" TextColor="#fff"></Button>
             <ActivityIndicator Grid.Row="5" IsRunning="{Binding IsRunning, Mode=TwoWay}"></ActivityIndicator>
         </Grid>
         
