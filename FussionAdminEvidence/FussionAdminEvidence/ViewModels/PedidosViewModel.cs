@@ -25,6 +25,7 @@ namespace FussionAdminEvidence.ViewModels
         private ObservableCollection<PedidoForRutaItemViewModel> pedidosForRuta;
         public bool isRefreshing;
         public bool isEnabledSearchBar;
+        public bool isEnabledSearchPedidosChofer;
         private string filter;
         private List<Pedido_> pedidosList;
         public static RutaViewModel rvm;
@@ -54,6 +55,12 @@ namespace FussionAdminEvidence.ViewModels
         {
             get { return this.isEnabledSearchBar; }
             set { SetValue(ref this.isEnabledSearchBar, value); }
+        }
+
+        public bool IsEnabledSearchPedidosChofer
+        {
+            get { return this.isEnabledSearchPedidosChofer; }
+            set { SetValue(ref this.isEnabledSearchPedidosChofer, value); }
         }
 
         public string Filter {
@@ -131,10 +138,12 @@ namespace FussionAdminEvidence.ViewModels
         private async void LoadPedidos()
         {
             this.IsRefreshing = true;
+            this.IsEnabledSearchPedidosChofer = false;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
+                this.IsEnabledSearchPedidosChofer = true;
                 await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
 
                 await Application.Current.MainPage.Navigation.PopAsync();
@@ -151,11 +160,13 @@ namespace FussionAdminEvidence.ViewModels
              if (!response.IsSuccess)
                 {
                     this.IsRefreshing = false;
-                    await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                    this.IsEnabledSearchPedidosChofer = true;
+                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                     return;
                 }
 
              this.IsRefreshing = false;
+             this.IsEnabledSearchPedidosChofer = true;
 
              this.pedidosList = (List<Pedido_>)response.Result;
              this.Pedidos = new ObservableCollection<PedidoItemViewModel>(
