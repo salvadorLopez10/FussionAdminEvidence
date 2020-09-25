@@ -19,7 +19,10 @@ namespace FussionAdminEvidence.Views
 
         private async void ConfirmSignature_Clicked(object sender, EventArgs e)
         {
-            Stream firma = await PadView.GetImageStreamAsync(SignaturePad.Forms.SignatureImageFormat.Jpeg);
+            Stream firma = await PadView.GetImageStreamAsync(
+                SignaturePad.Forms.SignatureImageFormat.Jpeg,
+                 strokeColor: Color.Black, fillColor:Color.White
+                );
             pvm.suscribeFirma(firma);
             //await Application.Current.MainPage.Navigation.PopAsync();
             await App.Navigator.PopAsync();
