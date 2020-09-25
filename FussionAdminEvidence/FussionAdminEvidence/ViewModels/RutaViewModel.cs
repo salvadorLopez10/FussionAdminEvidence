@@ -499,8 +499,8 @@ namespace FussionAdminEvidence.ViewModels
                 }
 
                 //Validar que la ruta que se intenta crear no contenga un nombre duplicado
-                //var responseRutas = await apiService.GetRutas("https://apps.fussionweb.com/", "/sietest/Mobile", "/Rutas");
-                var responseRutas = await apiService.GetRutas("https://apps.fussionweb.com/", "/sie/Mobile", "/Rutas");
+                var responseRutas = await apiService.GetRutas("https://apps.fussionweb.com/", "/sietest/Mobile", "/Rutas");
+                //var responseRutas = await apiService.GetRutas("https://apps.fussionweb.com/", "/sie/Mobile", "/Rutas");
                 var rutasList = (List<Ruta>)responseRutas.Result;
                 var existeNombreRuta = false;
                 var choferAsignadoConRuta = false;
@@ -538,8 +538,8 @@ namespace FussionAdminEvidence.ViewModels
                 }
 
 
-                var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sie/Mobile", "/InsertarRuta", ruta);
-                //var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sietest/Mobile", "/InsertarRuta", ruta);
+                //var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sie/Mobile", "/InsertarRuta", ruta);
+                var response = await apiService.InsertarRuta("https://apps.fussionweb.com/", "sietest/Mobile", "/InsertarRuta", ruta);
                 
                 if (!response.IsSuccess)
                 {
@@ -586,8 +586,8 @@ namespace FussionAdminEvidence.ViewModels
                     ruta["KmLlegada"] =this.KmLlegada;
                     ruta["Status"] = int.Parse(this.StatusRutaSeleccionado.Id);
 
-                    var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sie/Mobile", "/ActualizarRuta", ruta);
-                    //var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta", ruta);
+                    //var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sie/Mobile", "/ActualizarRuta", ruta);
+                    var response = await apiService.ActualizaRuta("https://apps.fussionweb.com/", "/sietest/Mobile", "/ActualizarRuta", ruta);
                     if (!response.IsSuccess)
                     {
                         this.IsRunning = false;

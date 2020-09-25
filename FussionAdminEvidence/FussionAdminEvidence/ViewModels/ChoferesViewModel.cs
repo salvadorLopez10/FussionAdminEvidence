@@ -80,8 +80,8 @@ namespace FussionAdminEvidence.ViewModels
             }
 
             
-            var response = await apiService.GetChoferes("https://apps.fussionweb.com/", "/sie/Mobile", "/Choferes");
-            //var response = await apiService.GetChoferes("https://apps.fussionweb.com/", "/sietest/Mobile", "/Choferes");
+            //var response = await apiService.GetChoferes("https://apps.fussionweb.com/", "/sie/Mobile", "/Choferes");
+            var response = await apiService.GetChoferes("https://apps.fussionweb.com/", "/sietest/Mobile", "/Choferes");
             if (!response.IsSuccess)
             {
                 this.IsRefreshingChoferes = false;

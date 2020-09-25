@@ -24,6 +24,7 @@ namespace FussionAdminEvidence.ViewModels
         private ObservableCollection<PedidoItemViewModel> pedidos;
         private ObservableCollection<PedidoForRutaItemViewModel> pedidosForRuta;
         public bool isRefreshing;
+        public bool isEnabledSearchBar;
         private string filter;
         private List<Pedido_> pedidosList;
         public static RutaViewModel rvm;
@@ -47,6 +48,12 @@ namespace FussionAdminEvidence.ViewModels
         public bool IsRefreshing {
             get { return this.isRefreshing; }
             set { SetValue(ref this.isRefreshing, value); }
+        }
+
+        public bool IsEnabledSearchBar
+        {
+            get { return this.isEnabledSearchBar; }
+            set { SetValue(ref this.isEnabledSearchBar, value); }
         }
 
         public string Filter {
@@ -139,8 +146,8 @@ namespace FussionAdminEvidence.ViewModels
             var idUsuario = this.persistenceService.GetValuePreference("guid");
 
                 //var response = await apiService.GetList<Pedido_>("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
-            //var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
-            var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sie/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
+            var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
+            //var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sie/Mobile", "/PedidosChofer?Chofer=" +idUsuario);
              if (!response.IsSuccess)
                 {
                     this.IsRefreshing = false;
@@ -163,26 +170,31 @@ namespace FussionAdminEvidence.ViewModels
         private async void LoadPedidosForRuta()
         {
             this.IsRefreshing = true;
+            this.IsEnabledSearchBar = false;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
+                this.IsEnabledSearchBar = true;
                 await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Aceptar");
 
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
 
-            var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sie/Mobile", "/Pedidos");
-            //var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
+            
+            //var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sie/Mobile", "/Pedidos");
+            var response = await apiService.GetPedidos("https://apps.fussionweb.com/", "/sietest/Mobile", "/Pedidos");
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
+                this.IsEnabledSearchBar = true;
                 await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                 return;
             }
 
             this.IsRefreshing = false;
+            this.IsEnabledSearchBar = true;
 
             this.pedidosList = (List<Pedido_>)response.Result;
             this.PedidosForRuta = new ObservableCollection<PedidoForRutaItemViewModel>(

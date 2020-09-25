@@ -12,7 +12,8 @@
             <SearchBar
                 Placeholder="Buscar número de pedido"
                 Text="{Binding Filter, Mode=TwoWay}"
-                SearchCommand="{Binding SearchCommand}">
+                SearchCommand="{Binding SearchCommand}"
+                IsEnabled="{Binding IsEnabledSearchBar}">
             </SearchBar>
             <ListView 
                 ItemsSource="{Binding PedidosForRuta}"

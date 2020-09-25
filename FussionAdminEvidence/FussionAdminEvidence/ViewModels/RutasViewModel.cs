@@ -89,8 +89,8 @@ namespace FussionAdminEvidence.ViewModels
                 return;
             }
 
-            var response = await apiService.GetRutas("https://apps.fussionweb.com/", "/sie/Mobile", "/Rutas");
-            //var response = await apiService.GetRutas("https://apps.fussionweb.com/", "/sietest/Mobile", "/Rutas");
+            //var response = await apiService.GetRutas("https://apps.fussionweb.com/", "/sie/Mobile", "/Rutas");
+            var response = await apiService.GetRutas("https://apps.fussionweb.com/", "/sietest/Mobile", "/Rutas");
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
